@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+  <!-- CLIENTE_SOFTRE (CLIENTE): Cliente softre; -->
+  <CreateTable schema="SOFTRE" name="CLIENTE_SOFTRE" shortname="CLIENTE">
+    <Column name="ID_AZIENDA" shortname="ID_AZIENDA" type="char" length="3" nullable="no"/>
+    <Column name="STATO" shortname="STATO" type="char" length="1" nullable="no"/>
+    <Column name="R_UTENTE_CRZ" shortname="R_UTENTE_C" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_CRZ" shortname="TIMESTAMP_" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="R_UTENTE_AGG" shortname="R_UTENTE_A" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_AGG" shortname="TIMESTAMP0" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="ID_ANAGRAFICO" shortname="ID_ANAGRAF" type="numeric" length="8" nullable="no"/>
+    <Column name="AMBIENTE_SVILUPPO" shortname="AMBIENTE_S" type="char" length="1" nullable="no" default="-"/>
+    <Column name="DATABASE_VENDOR" shortname="DATABASE_V" type="char" length="1" nullable="no" default="1"/>
+    <Column name="PTH_VRM_01" shortname="PTH_VRM_01" type="varchar" length="10" nullable="yes"/>
+    <Column name="PTH_VRM_02" shortname="PTH_VRM_02" type="varchar" length="10" nullable="yes"/>
+    <Column name="JVM_APPLICATION_01" shortname="JVM_APPLIC" type="varchar" length="10" nullable="yes"/>
+    <Column name="JVM_APPLICATION_02" shortname="JVM_APPLI0" type="varchar" length="10" nullable="yes"/>
+    <Column name="JVM_BATCH_01" shortname="JVM_BATCH_" type="varchar" length="10" nullable="yes"/>
+    <Column name="JVM_BATCH_02" shortname="JVM_BATCH0" type="varchar" length="10" nullable="yes"/>
+    <Column name="SIRIO_VRM_01" shortname="SIRIO_VRM_" type="varchar" length="10" nullable="yes"/>
+    <Column name="SIRIO_VRM_02" shortname="SIRIO_VRM0" type="varchar" length="10" nullable="yes"/>
+    <Column name="CRYSTAL_VRM_01" shortname="CRYSTAL_VR" type="varchar" length="50" nullable="yes"/>
+    <Column name="CRYSTAL_VRM_02" shortname="CRYSTAL_V0" type="varchar" length="50" nullable="yes"/>
+    <Column name="APPLICATION_SVRV_TYPE" shortname="APPLICATIO" type="char" length="20" nullable="yes"/>
+    <Column name="PASSWORD_ADMIN_01" shortname="PASSWORD_A" type="char" length="20" nullable="yes"/>
+    <Column name="PASSWORD_ADMIN_02" shortname="PASSWORD_0" type="char" length="20" nullable="yes"/>
+    <Column name="NOTE_SERVER_SVIL" shortname="NOTE_SERVE" type="varchar" length="1000" nullable="yes"/>
+    <Column name="MANAGER_PROJECT" shortname="MANAGER_PR" type="char" length="1" nullable="no" default="0"/>
+    <Column name="PROJECT_NOTE" shortname="PROJECT_NO" type="varchar" length="1000" nullable="yes"/>
+    <Column name="NOTE_CLIENTE" shortname="NOTE_CLIEN" type="varchar" length="1000" nullable="yes"/>
+    <Column name="GIT_PROJECT" shortname="GIT_PROJEC" type="varchar" length="250" nullable="yes"/>
+    <Column name="LINK_VPN_CONFIGURATION" shortname="LINK_VPN_C" type="varchar" length="250" nullable="yes"/>
+    <Column name="LINK_PANTHERA_EXT" shortname="LINK_PANTH" type="varchar" length="250" nullable="yes"/>
+  </CreateTable>
+  <CreateIndex schema="SOFTRE" name="CLIENTE_SOFTRE_I01" tabschema="SOFTRE" tabname="CLIENTE_SOFTRE" shortname="CLIENT_I01" unique="yes">
+    <IndexCol name="ID_AZIENDA" order="Asc"/>
+    <IndexCol name="ID_ANAGRAFICO" order="Asc"/>
+  </CreateIndex>
+  <AlterTable schema="SOFTRE" name="CLIENTE_SOFTRE">
+    <AddPrimaryKey>
+      <PrimaryKey>
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID_ANAGRAFICO"/>
+      </PrimaryKey>
+    </AddPrimaryKey>
+  </AlterTable>
+  <Comment>
+    <CommentTable schema="SOFTRE" name="CLIENTE_SOFTRE" text="Cliente softre">
+      <CommentColumn name="ID_AZIENDA" text="Azienda"/>
+      <CommentColumn name="STATO" text="Stato"/>
+      <CommentColumn name="R_UTENTE_CRZ" text="Utente creazione"/>
+      <CommentColumn name="TIMESTAMP_CRZ" text="Timestamp creazione"/>
+      <CommentColumn name="R_UTENTE_AGG" text="Utente ultima modifica"/>
+      <CommentColumn name="TIMESTAMP_AGG" text="Timestamp ultima modifica"/>
+      <CommentColumn name="ID_ANAGRAFICO" text="Codice Anagrafico"/>
+      <CommentColumn name="AMBIENTE_SVILUPPO" text="Tipo ambiente [Sviluppo]"/>
+      <CommentColumn name="DATABASE_VENDOR" text="Database Vendor"/>
+      <CommentColumn name="PTH_VRM_01" text="Versione panth01"/>
+      <CommentColumn name="PTH_VRM_02" text="Versione panth02"/>
+      <CommentColumn name="JVM_APPLICATION_01" text="Versione java applicativo 01"/>
+      <CommentColumn name="JVM_APPLICATION_02" text="Versione java applicativo 02"/>
+      <CommentColumn name="JVM_BATCH_01" text="Versione batch panth01"/>
+      <CommentColumn name="JVM_BATCH_02" text="Versione batch panth02"/>
+      <CommentColumn name="SIRIO_VRM_01" text="Versione sirio panth01"/>
+      <CommentColumn name="SIRIO_VRM_02" text="Versione sirio panth02"/>
+      <CommentColumn name="CRYSTAL_VRM_01" text="Versione crystal report panth01"/>
+      <CommentColumn name="CRYSTAL_VRM_02" text="Versione crystal report panth02"/>
+      <CommentColumn name="APPLICATION_SVRV_TYPE" text="Tipo application server"/>
+      <CommentColumn name="PASSWORD_ADMIN_01" text="Password admin panth01"/>
+      <CommentColumn name="PASSWORD_ADMIN_02" text="Password admin panth02"/>
+      <CommentColumn name="NOTE_SERVER_SVIL" text="Note server sviluppo"/>
+      <CommentColumn name="MANAGER_PROJECT" text="Gestore progetto"/>
+      <CommentColumn name="PROJECT_NOTE" text="Note progetto"/>
+      <CommentColumn name="NOTE_CLIENTE" text="Note cliente"/>
+      <CommentColumn name="GIT_PROJECT" text="Github project"/>
+      <CommentColumn name="LINK_VPN_CONFIGURATION" text="Link file di configurazione"/>
+      <CommentColumn name="LINK_PANTHERA_EXT" text="Link panthera esterno"/>
+    </CommentTable>
+    <CommentIndex schema="SOFTRE" name="CLIENTE_SOFTRE_I01" text="Primary Key"/>
+  </Comment>
+  <Grant schema="SOFTRE" name="CLIENTE_SOFTRE"/>
+</TDDML>

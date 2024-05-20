@@ -1,0 +1,7 @@
+<B>2024-05-20 12:17:37</B>
+<BR>Il dizionario <B>CLIENTE_SOFTRE</B> è stato cancellato
+<BR>Il file <B>W:\PthDev\Projects\Panthera\AtvSoftre\conf\db\Estensioni\00001\tddml\1_DROP_CLIENTE_SOFTRE.TDDML</B> e' stato generato correttamente.
+<BR>Il dizionario <B>CLIENTE_SOFTRE</B> è stato creato
+<BR>Il file <B>W:\PthDev\Projects\Panthera\AtvSoftre\conf\db\Estensioni\00001\tddml\1_CLIENTE_SOFTRE.TDDML</B> e' stato generato correttamente.
+<BR>Il file <B>W:\PthDev\Projects\Panthera\AtvSoftre\conf\db\Estensioni\00001\tddml\1_CONSTRAINT.TDDML</B> e' stato generato correttamente.
+<BR><B>La generazione tabella è completata con successo</B><BR>

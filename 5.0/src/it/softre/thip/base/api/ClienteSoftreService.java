@@ -9,9 +9,11 @@ import org.json.JSONObject;
 import com.thera.thermfw.base.Trace;
 import com.thera.thermfw.collector.BODataCollector;
 import com.thera.thermfw.common.ErrorMessage;
+import com.thera.thermfw.persist.ConnectionManager;
 import com.thera.thermfw.persist.Factory;
 
 import it.softre.thip.base.cliente.ClienteSoftre;
+import it.thera.thip.cs.DatiComuniEstesi;
 import it.thera.thip.vendite.proposteEvasione.CreaMessaggioErrore;
 
 /**
@@ -42,17 +44,20 @@ public class ClienteSoftreService {
 		Status status = null;
 		String errors = null;
 		String message = null;
-		if(body == null || body.isEmpty() || !body.has("PartitaIVA") || body.has("instance")) {
+		if(body == null || body.isEmpty() || !body.has("partita.iva") || !body.has("instance")) {
 			status = Status.BAD_REQUEST;
 			errors = "Body non fornito o partita iva non fornita o istanza non fornita";
 		}else {
-			ClienteSoftre cliente = ClienteSoftre.clienteSoftreDaPartitaIVA(body.getString("PartitaIVA"));
+			ClienteSoftre cliente = ClienteSoftre.clienteSoftreDaPartitaIVA(body.getString("partita.iva"));
 			if(cliente == null) {
 				status = Status.INTERNAL_SERVER_ERROR;
-				errors = "Non e' stato trovato nessun cliente con partita IVA: "+body.get("PartitaIVA");
+				errors = "Non e' stato trovato nessun cliente con partita.iva: "+body.get("partita.iva");
 			}else if(!isInstanceOk(body.get("instance"))){
 				status = Status.INTERNAL_SERVER_ERROR;
 				errors = "Istanza specificata non corretta: "+body.get("instance");
+			}else if(cliente.getStato() == DatiComuniEstesi.ANNULLATO){
+				status = Status.INTERNAL_SERVER_ERROR;
+				errors = "Il cliente si trova in stato annullato, non verrano aggiornati i dati";
 			}else {
 				int rc = -1;
 				try {
@@ -63,13 +68,22 @@ public class ClienteSoftreService {
 						errors = em.getLongText();
 					e.printStackTrace(Trace.excStream);
 				}
-				if(rc != BODataCollector.OK) {
+				if(rc < BODataCollector.OK) {
 					status = Status.INTERNAL_SERVER_ERROR;
 					if(errors == null)
 						errors = CreaMessaggioErrore.daRcAErrorMessage(rc, null).getLongText();
 				}else {
 					status = Status.OK;
 					message = "Cliente aggiornato correttamente";
+				}
+				try {
+					if(status == Status.OK) {
+						ConnectionManager.commit();
+					}else {
+						ConnectionManager.rollback();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace(Trace.excStream);
 				}
 			}
 		}
@@ -82,50 +96,49 @@ public class ClienteSoftreService {
 	protected int aggiornaIstanzaCliente(ClienteSoftre cliente, JSONObject body) throws SQLException {
 		int rc = -1;
 		String istanza = body.getString("instance");
+		String applicationServerType = (String) (body.has("applycation.server.type") ? body.get("applycation.server.type") : null);
+		String panthVrm = body.has("panth.vrm") ? body.getString("panth.vrm") : null;
+		String jvmApplication = body.has("jvm.application") ? body.getString("jvm.application") : null;
+		String jvmBatch = body.has("jvm.batch") ? body.getString("jvm.batch") : null;
+		String sirioVrm = body.has("sirio.vrm") ? body.getString("sirio.vrm") : null;
+		String crystalVrm = body.has("crystal.vrm") ? body.getString("crystal.vrm") : null;
 		if(istanza.equals("PANTH01")) {
 			//aggiorniamo i dati di panth01
-			String panthVrm01 = body.has("panth.vrm.01") ? body.getString("panth.vrm.01") : null;
-			String jvmApplication01 = body.has("jvm.application.01") ? body.getString("jvm.application.01") : null;
-			String jvmBatch01 = body.has("jvm.batch.01") ? body.getString("jvm.batch.01") : null;
-			String sirioVrm01 = body.has("sirio.vrm.01") ? body.getString("sirio.vrm.01") : null;
-			String crystalVrm01 = body.has("crystal.vrm.01") ? body.getString("crystal.vrm.01") : null;
-			if(panthVrm01 != null) {
-				cliente.setPthVrm01(panthVrm01);
+			if(panthVrm != null) {
+				cliente.setPthVrm01(panthVrm);
 			}
-			if(jvmApplication01 != null) {
-				cliente.setJvmApplication01(jvmApplication01);
+			if(jvmApplication != null) {
+				cliente.setJvmApplication01(jvmApplication);
 			}
-			if(jvmBatch01 != null) {
-				cliente.setJvmBatch01(jvmBatch01);
+			if(jvmBatch != null) {
+				cliente.setJvmBatch01(jvmBatch);
 			}
-			if(sirioVrm01 != null) {
-				cliente.setSirioVrm01(sirioVrm01);
+			if(sirioVrm != null) {
+				cliente.setSirioVrm01(sirioVrm);
 			}
-			if(crystalVrm01 != null) {
-				cliente.setCrystalVrm01(crystalVrm01);
+			if(crystalVrm != null) {
+				cliente.setCrystalVrm01(crystalVrm);
 			}
 		}else {
 			//aggiorniamo i dati di panth02
-			String panthVrm02 = body.has("panth.vrm.02") ? body.getString("panth.vrm.02") : null;
-			String jvmApplication02 = body.has("jvm.application.02") ? body.getString("jvm.application.02") : null;
-			String jvmBatch02 = body.has("jvm.batch.02") ? body.getString("jvm.batch.02") : null;
-			String sirioVrm02 = body.has("sirio.vrm.02") ? body.getString("sirio.vrm.02") : null;
-			String crystalVrm02 = body.has("crystal.vrm.02") ? body.getString("crystal.vrm.02") : null;
-			if(panthVrm02 != null) {
-				cliente.setPthVrm02(panthVrm02);
+			if(panthVrm != null) {
+				cliente.setPthVrm02(panthVrm);
 			}
-			if(jvmApplication02 != null) {
-				cliente.setJvmApplication02(jvmApplication02);
+			if(jvmApplication != null) {
+				cliente.setJvmApplication02(jvmApplication);
 			}
-			if(jvmBatch02 != null) {
-				cliente.setJvmBatch02(jvmBatch02);
+			if(jvmBatch != null) {
+				cliente.setJvmBatch02(jvmBatch);
 			}
-			if(sirioVrm02 != null) {
-				cliente.setSirioVrm02(sirioVrm02);
+			if(sirioVrm != null) {
+				cliente.setSirioVrm02(sirioVrm);
 			}
-			if(crystalVrm02 != null) {
-				cliente.setCrystalVrm02(crystalVrm02);
+			if(crystalVrm != null) {
+				cliente.setCrystalVrm02(crystalVrm);
 			}
+		}
+		if(applicationServerType != null) {
+			cliente.setApplicationSvrvType(applicationServerType);
 		}
 		rc = cliente.save();
 		return rc;

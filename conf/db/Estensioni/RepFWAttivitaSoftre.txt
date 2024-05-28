@@ -1,0 +1,7 @@
+<B>2024-05-22 12:51:04</B>
+<B>2024-05-22 12:51:04</B>
+<BR>Il descrittore di classe <B>AttivitaCollaboratore</B> è stato generato correttamente
+<B>2024-05-22 12:51:06</B>
+<BR>Il descrittore di classe <B>AttivitaChat</B> è stato generato correttamente
+<BR>Il descrittore di classe <B>AttivitaSoftre</B> è stato generato correttamente
+<BR><B>La generazione descrittori di classe è completata con successo</B><BR>

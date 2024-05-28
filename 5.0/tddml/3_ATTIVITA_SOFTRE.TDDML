@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+  <!-- ATTIVITA_SOFTRE (ATTIVIT): Attivita Softre; -->
+  <CreateTable schema="SOFTRE" name="ATTIVITA_SOFTRE" shortname="ATTIVIT">
+    <Column name="ID_AZIENDA" shortname="ID_AZIENDA" type="char" length="3" nullable="no"/>
+    <Column name="ID" shortname="ID" type="integer" nullable="no"/>
+    <Column name="NOME_ATTIVITA" shortname="NOME_ATTIV" type="varchar" length="100" nullable="no"/>
+    <Column name="DESCRIZIONE_ATTIVITA" shortname="DESCRIZION" type="varchar" length="1000" nullable="yes"/>
+    <Column name="RICHIEDENTE_SOFTRE" shortname="RICHIEDENT" type="varchar" length="50" nullable="yes"/>
+    <Column name="RICHIEDENTE_CLIENTE" shortname="RICHIEDEN0" type="varchar" length="50" nullable="yes"/>
+    <Column name="LINK_ANALISI" shortname="LINK_ANALI" type="varchar" length="250" nullable="yes"/>
+    <Column name="PROPRIETARIO_ANALISI" shortname="PROPRIETAR" type="varchar" length="50" nullable="yes"/>
+    <Column name="R_INCARICATO" shortname="R_INCARICA" type="char" length="16" nullable="yes"/>
+    <Column name="R_CLIENTE_SOFTRE" shortname="R_CLIENTE_" type="numeric" length="8" nullable="yes"/>
+    <Column name="QUOTAZIONE_ORE" shortname="QUOTAZIONE" type="decimal" length="15" scale="3" nullable="yes"/>
+    <Column name="QUOTAZIONE_GG" shortname="QUOTAZION0" type="decimal" length="15" scale="3"  nullable="yes"/>
+    <Column name="TIPO_FATTURAZIONE" shortname="TIPO_FATTU" type="char" length="1" nullable="no" default="0"/>
+    <Column name="STATO_CNF_CLIENTE" shortname="STATO_CNF_" type="char" length="1" nullable="no" default="0"/>
+    <Column name="PRIORITA" shortname="PRIORITA" type="varchar" length="50" nullable="yes"/>
+    <Column name="COMMESSA_SMEUP" shortname="COMMESSA_S" type="char" length="20" nullable="yes"/>
+    <Column name="STATO_ATTIVITA" shortname="STATO_ATTI" type="char" length="1" nullable="no" default="0"/>
+    <Column name="LINK_DOCUMENTAZIONE" shortname="LINK_DOCUM" type="varchar" length="250" nullable="yes"/>
+    <Column name="LINK_FOLDER_ALLEGATI" shortname="LINK_FOLDE" type="varchar" length="250" nullable="yes"/>
+    <Column name="TICKET_SISTHEMA" shortname="TICKET_SIS" type="char" length="20" nullable="yes"/>
+    <Column name="DATA_PREVISTA_CONSEGNA" shortname="DATA_PREVI" type="date" nullable="yes"/>
+    <Column name="DATA_INCONTRO_CLIENTE" shortname="DATA_INCON" type="date" nullable="yes"/>
+    <Column name="DATA_COMPLETAMENTO" shortname="DATA_COMPL" type="date" nullable="yes"/>
+    <Column name="DATA_INIZIO" shortname="DATA_INIZI" type="date" nullable="yes"/>
+    <Column name="DATA_FINE" shortname="DATA_FINE" type="date" nullable="yes"/>
+    <Column name="STATO" shortname="STATO" type="char" length="1" nullable="no"/>
+    <Column name="R_UTENTE_CRZ" shortname="R_UTENTE_C" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_CRZ" shortname="TIMESTAMP_" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="R_UTENTE_AGG" shortname="R_UTENTE_A" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_AGG" shortname="TIMESTAMP0" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+  </CreateTable>
+  <CreateIndex schema="SOFTRE" name="ATTIVITA_SOFTR_I01" tabschema="SOFTRE" tabname="ATTIVITA_SOFTRE" shortname="ATTIVI_I01" unique="yes">
+    <IndexCol name="ID_AZIENDA" order="Asc"/>
+    <IndexCol name="ID" order="Asc"/>
+  </CreateIndex>
+  <AlterTable schema="SOFTRE" name="ATTIVITA_SOFTRE">
+    <AddPrimaryKey>
+      <PrimaryKey>
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID"/>
+      </PrimaryKey>
+    </AddPrimaryKey>
+  </AlterTable>
+  <Comment>
+    <CommentTable schema="SOFTRE" name="ATTIVITA_SOFTRE" text="Attivita Softre">
+      <CommentColumn name="ID_AZIENDA" text="Azienda"/>
+      <CommentColumn name="ID" text="Codice attivita"/>
+      <CommentColumn name="NOME_ATTIVITA" text="Nome attivita"/>
+      <CommentColumn name="DESCRIZIONE_ATTIVITA" text="Descrizione attivita"/>
+      <CommentColumn name="RICHIEDENTE_SOFTRE" text="Richiedente softre"/>
+      <CommentColumn name="RICHIEDENTE_CLIENTE" text="Richiedente cliente"/>
+      <CommentColumn name="LINK_ANALISI" text="Link analisi"/>
+      <CommentColumn name="PROPRIETARIO_ANALISI" text="Proprietario analisi"/>
+      <CommentColumn name="R_INCARICATO" text="Incaricato"/>
+      <CommentColumn name="R_CLIENTE_SOFTRE" text="Id cliente softre"/>
+      <CommentColumn name="QUOTAZIONE_ORE" text="Quotazione H"/>
+      <CommentColumn name="QUOTAZIONE_GG" text="Giorni quotazione"/>
+      <CommentColumn name="TIPO_FATTURAZIONE" text="Tipo Fatturazione"/>
+      <CommentColumn name="STATO_CNF_CLIENTE" text="Stato conferma cliente"/>
+      <CommentColumn name="PRIORITA" text="Priorita"/>
+      <CommentColumn name="COMMESSA_SMEUP" text="Commessa smeup"/>
+      <CommentColumn name="STATO_ATTIVITA" text="Stato attivita"/>
+      <CommentColumn name="LINK_DOCUMENTAZIONE" text="Link documentazione"/>
+      <CommentColumn name="LINK_FOLDER_ALLEGATI" text="Link allegati"/>
+      <CommentColumn name="TICKET_SISTHEMA" text="Ticket sisthema"/>
+      <CommentColumn name="DATA_PREVISTA_CONSEGNA" text="Data prevista consegna"/>
+      <CommentColumn name="DATA_INCONTRO_CLIENTE" text="Data incontro cliente"/>
+      <CommentColumn name="DATA_COMPLETAMENTO" text="Data completamento"/>
+      <CommentColumn name="DATA_INIZIO" text="Data inizio"/>
+      <CommentColumn name="DATA_FINE" text="Data fine"/>
+      <CommentColumn name="STATO" text="Stato"/>
+      <CommentColumn name="R_UTENTE_CRZ" text="Utente creazione"/>
+      <CommentColumn name="TIMESTAMP_CRZ" text="Timestamp creazione"/>
+      <CommentColumn name="R_UTENTE_AGG" text="Utente ultima modifica"/>
+      <CommentColumn name="TIMESTAMP_AGG" text="Timestamp ultima modifica"/>
+    </CommentTable>
+    <CommentIndex schema="SOFTRE" name="ATTIVITA_SOFTR_I01" text="Primary Key"/>
+  </Comment>
+  <Grant schema="SOFTRE" name="ATTIVITA_SOFTRE"/>
+</TDDML>

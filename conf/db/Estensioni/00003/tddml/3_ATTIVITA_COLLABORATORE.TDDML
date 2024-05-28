@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+  <!-- ATTIVITA_COLLABORATORE (ATTIVI0): Collaboratori attivita; -->
+  <CreateTable schema="SOFTRE" name="ATTIVITA_COLLABORATORE" shortname="ATTIVI0">
+    <Column name="ID_AZIENDA" shortname="ID_AZIEND0" type="char" length="3" nullable="no"/>
+    <Column name="ID" shortname="I0" type="integer" nullable="no"/>
+    <Column name="R_UTENTE" shortname="R_UTENTE" type="char" length="16" nullable="no"/>
+    <Column name="STATO" shortname="STAT0" type="char" length="1" nullable="no"/>
+    <Column name="R_UTENTE_CRZ" shortname="R_UTENTE_0" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_CRZ" shortname="TIMESTAMP0" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="R_UTENTE_AGG" shortname="R_UTENTE_1" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_AGG" shortname="TIMESTAMP1" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+  </CreateTable>
+  <CreateIndex schema="SOFTRE" name="ATTIVITA_COLLA_I01" tabschema="SOFTRE" tabname="ATTIVITA_COLLABORATORE" shortname="ATTIVI_I02" unique="yes">
+    <IndexCol name="ID_AZIENDA" order="Asc"/>
+    <IndexCol name="ID" order="Asc"/>
+    <IndexCol name="R_UTENTE" order="Asc"/>
+  </CreateIndex>
+  <AlterTable schema="SOFTRE" name="ATTIVITA_COLLABORATORE">
+    <AddPrimaryKey>
+      <PrimaryKey>
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID"/>
+        <ColumnRef name="R_UTENTE"/>
+      </PrimaryKey>
+    </AddPrimaryKey>
+  </AlterTable>
+  <Comment>
+    <CommentTable schema="SOFTRE" name="ATTIVITA_COLLABORATORE" text="Collaboratori attivita">
+      <CommentColumn name="ID_AZIENDA" text="Azienda"/>
+      <CommentColumn name="ID" text="Codice attivita"/>
+      <CommentColumn name="R_UTENTE" text="Utente"/>
+      <CommentColumn name="STATO" text="Stato"/>
+      <CommentColumn name="R_UTENTE_CRZ" text="Utente creazione"/>
+      <CommentColumn name="TIMESTAMP_CRZ" text="Timestamp creazione"/>
+      <CommentColumn name="R_UTENTE_AGG" text="Utente ultima modifica"/>
+      <CommentColumn name="TIMESTAMP_AGG" text="Timestamp ultima modifica"/>
+    </CommentTable>
+    <CommentIndex schema="SOFTRE" name="ATTIVITA_COLLA_I01" text="Primary Key"/>
+  </Comment>
+  <Grant schema="SOFTRE" name="ATTIVITA_COLLABORATORE"/>
+</TDDML>

@@ -1,2 +1,0 @@
-<B>2024-05-20 12:17:48</B>
-<BR><B>Generazione JSP è completata con successo</B><BR>

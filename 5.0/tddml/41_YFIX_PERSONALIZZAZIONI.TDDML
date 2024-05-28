@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+  <!-- YFIX_PERSONALIZZAZIONI (YFIX_P0): Fix Personalizzazioni; -->
+  <CreateTable schema="THIPPERS" name="YFIX_PERSONALIZZAZIONI" shortname="YFIX_P0">
+    <Column name="ID_AZIENDA" shortname="ID_AZIENDA" type="char" length="3" nullable="no"/>
+    <Column name="STATO" shortname="STATO" type="char" length="1" nullable="no"/>
+    <Column name="R_UTENTE_CRZ" shortname="R_UTENTE_C" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_CRZ" shortname="TIMESTAMP_" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="R_UTENTE_AGG" shortname="R_UTENTE_A" type="char" length="20" nullable="yes"/>
+    <Column name="TIMESTAMP_AGG" shortname="TIMESTAMP0" type="timestamp" nullable="no" default="CURRENT TIMESTAMP"/>
+    <Column name="ID_NUMERO_FIX" shortname="ID_NUMERO_" type="integer" nullable="no"/>
+    <Column name="R_CLIENTE" shortname="R_CLIENTE" type="integer" nullable="no"/>
+    <Column name="DESCRIZIONE" shortname="DESCRIZION" type="varchar" length="1000" nullable="no"/>
+    <Column name="DATA_RILASCIO" shortname="DATA_RILAS" type="date" nullable="yes"/>
+    <Column name="FLAG_MODIFICHE_STD" shortname="FLAG_MODIF" type="char" length="1" nullable="no" default="N"/>
+    <Column name="FLAG_RILASCIO" shortname="FLAG_RILAS" type="char" length="1" nullable="no" default="N"/>
+    <Column name="LINK_ANALISI" shortname="LINK_ANALI" type="varchar" length="512" nullable="yes"/>
+    <Column name="LINK_DOCUMENTAZIONE" shortname="LINK_DOCUM" type="varchar" length="512" nullable="yes"/>
+  </CreateTable>
+  <CreateIndex schema="THIPPERS" name="YFIX_PERSONALI_I01" tabschema="THIPPERS" tabname="YFIX_PERSONALIZZAZIONI" shortname="YFIX_P_I02" unique="yes">
+    <IndexCol name="ID_AZIENDA" order="Asc"/>
+    <IndexCol name="ID_NUMERO_FIX" order="Asc"/>
+  </CreateIndex>
+  <AlterTable schema="THIPPERS" name="YFIX_PERSONALIZZAZIONI">
+    <AddPrimaryKey>
+      <PrimaryKey>
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID_NUMERO_FIX"/>
+      </PrimaryKey>
+    </AddPrimaryKey>
+  </AlterTable>
+  <Comment>
+    <CommentTable schema="THIPPERS" name="YFIX_PERSONALIZZAZIONI" text="Fix Personalizzazioni">
+      <CommentColumn name="ID_AZIENDA" text="Azienda"/>
+      <CommentColumn name="STATO" text="Stato"/>
+      <CommentColumn name="R_UTENTE_CRZ" text="Utente creazione"/>
+      <CommentColumn name="TIMESTAMP_CRZ" text="Timestamp creazione"/>
+      <CommentColumn name="R_UTENTE_AGG" text="Utente ultima modifica"/>
+      <CommentColumn name="TIMESTAMP_AGG" text="Timestamp ultima modifica"/>
+      <CommentColumn name="ID_NUMERO_FIX" text="Numero Fix"/>
+      <CommentColumn name="R_CLIENTE" text="Cliente"/>
+      <CommentColumn name="DESCRIZIONE" text="Descrizione"/>
+      <CommentColumn name="DATA_RILASCIO" text="Data rilascio"/>
+      <CommentColumn name="FLAG_MODIFICHE_STD" text="Modifiche standard"/>
+      <CommentColumn name="FLAG_RILASCIO" text="Rilasciata"/>
+      <CommentColumn name="LINK_ANALISI" text="Link drive analisi"/>
+      <CommentColumn name="LINK_DOCUMENTAZIONE" text="Link drive documentazione"/>
+    </CommentTable>
+    <CommentIndex schema="THIPPERS" name="YFIX_PERSONALI_I01" text="Primary Key"/>
+  </Comment>
+  <Grant schema="THIPPERS" name="YFIX_PERSONALIZZAZIONI"/>
+</TDDML>

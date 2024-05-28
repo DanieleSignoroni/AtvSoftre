@@ -81,7 +81,7 @@ implements BusinessObject, Authorizable, Deletable, Conflictable {
 	protected String iLinkPantheraExt;
 
 	protected Proxy iAnagraficodibase = new Proxy(it.thera.thip.base.partner.AnagraficoDiBasePrimrose.class);
-
+	
 	//Database vendor
 	public static final char SQL_SERVER = '1';
 	public static final char DB2 = '2';

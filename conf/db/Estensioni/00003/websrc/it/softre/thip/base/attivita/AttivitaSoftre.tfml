@@ -1,0 +1,78 @@
+<tfml>
+  <generator type="form"/>
+  <form classHdr="AttivitaSoftre"
+    name="AttivitaSoftreForm"
+    locktype="nolock"
+    errorList="yes" menubar="yes" toolbar="yes" submitReset="none"
+    jsLibraryName="it/softre/thip/base/attivita/AttivitaSoftre.js"
+    onLoadPresent="yes"
+    header="com.thera.thermfw.common.Header.jsp"
+    footer="com.thera.thermfw.common.Footer.jsp">
+    <menubar  name="myMenuBar">
+      <import file="it/thera/thip/cs/defObjMenu.tfml"/>
+    </menubar>
+    <toolbar name="myToolBar" imgwidth="16" imgheight="16">
+      <import file="it/thera/thip/cs/defObjMenu.tfml"/>
+    </toolbar>
+    <tabbed name="mytabbed" height="100%" width="100%">
+      <tab name="tab1" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab1">
+        <textinput name="Id" classAD="Id"/>
+        <textarea name="NomeAttivita" classAD="NomeAttivita"/>
+        <textinput name="DataPrevistaConsegna" classAD="DataPrevistaConsegna" showCalendarBtn="yes"/>
+        <textinput name="DataIncontroCliente" classAD="DataIncontroCliente" showCalendarBtn="yes"/>
+        <textinput name="DataCompletamento" classAD="DataCompletamento" showCalendarBtn="yes"/>
+        <textinput name="DataFine" classAD="DataFine" showCalendarBtn="yes"/>
+        <textinput name="DataInizio" classAD="DataInizio" showCalendarBtn="yes"/>
+        <multisearchform name="ClienteSoftre" classRD="ClienteSoftre"/>
+        <multisearchform name="Incaricato" classRD="Incaricato"/>
+        <textinput name="QuotazioneOre" classAD="QuotazioneOre"/>
+        <textinput name="QuotazioneGg" classAD="QuotazioneGg"/>
+        <textarea name="DescrizioneAttivita" classAD="DescrizioneAttivita"/>
+        <textinput name="TicketSisthema" classAD="TicketSisthema"/>
+        <textinput name="RichiedenteSoftre" classAD="RichiedenteSoftre"/>
+        <textinput name="RichiedenteCliente" classAD="RichiedenteCliente"/>
+        <combobox name="TipoFatturazione" classAD="TipoFatturazione"/>
+        <combobox name="StatoCnfCliente" classAD="StatoCnfCliente"/>
+        <textinput name="Priorita" classAD="Priorita"/>
+        <textinput name="CommessaSmeup" classAD="CommessaSmeup"/>
+        <combobox name="StatoAttivita" classAD="StatoAttivita"/>
+      </tab>
+      <tab name="tab2" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab2">
+        <textarea name="LinkAnalisi" classAD="LinkAnalisi"/>
+        <textinput name="ProprietarioAnalisi" classAD="ProprietarioAnalisi"/>
+      </tab>
+      <tab name="tab3" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab3">
+        <textarea name="LinkDocumentazione" classAD="LinkDocumentazione"/>
+        <textarea name="LinkFolderAllegati" classAD="LinkFolderAllegati"/>
+      </tab>
+      <tab name="tab4" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab4">
+        <ajaxgrid name="AttivitaCollaboratori" classCD="AttivitaCollaboratori" type="independent">
+          <column classAD="IdUtente"/>
+          <column classAD="IdAttivitaSoftre"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+          <column classAD="Utente.DatiComuni.IdUtenteCrz" hideAsDefault="yes"/>
+        </ajaxgrid>
+      </tab>
+      <tab name="tab5" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab5">
+        <ajaxgrid name="AttivitaFixes" classCD="AttivitaFixes" type="independent">
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="IdFix"/>
+          <column classAD="Note"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+          <column classAD="Fix.IdCliente" hideAsDefault="yes"/>
+        </ajaxgrid>
+      </tab>
+      <tab name="tab6" resourceFile="it.softre.thip.base.attivita.resources.AttivitaSoftre" resourceID="tab6">
+        <ajaxgrid name="AttivitaChat" classCD="AttivitaChat" type="independent">
+          <column classAD="Id"/>
+          <column classAD="IdAttivitaSoftre"/>
+          <column classAD="IdAzienda" hidden="yes"/>
+          <column classAD="Message"/>
+          <column classAD="Azienda.Descrizione" hideAsDefault="yes"/>
+        </ajaxgrid>
+      </tab>
+    </tabbed>
+  </form>
+</tfml>
+

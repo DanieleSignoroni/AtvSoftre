@@ -9,8 +9,11 @@ import com.thera.thermfw.common.*;
 import com.thera.thermfw.persist.CachedStatement;
 import com.thera.thermfw.persist.ConnectionManager;
 import com.thera.thermfw.persist.Database;
+import com.thera.thermfw.persist.KeyHelper;
 import com.thera.thermfw.persist.PersistentObject;
 
+import it.thera.thip.base.azienda.Azienda;
+import it.thera.thip.base.partner.AnagraficoDiBasePrimroseTM;
 import it.thera.thip.base.partner.AnagraficoDiBaseTM;
 
 /**
@@ -28,8 +31,8 @@ public class ClienteSoftre extends ClienteSoftrePO {
 	
 	public static final String SELECT_CLIENTE_FROM_PIVA = "SELECT C."+ClienteSoftreTM.ID_ANAGRAFICO+" FROM "+ClienteSoftreTM.TABLE_NAME+" C "
 			+ "INNER JOIN "+AnagraficoDiBaseTM.TABLE_NAME+" A "
-			+ "ON C."+ClienteSoftreTM.ID_ANAGRAFICO+" = A."+AnagraficoDiBaseTM.ID_ANAGRAFICO+" "
-			+ "WHERE A."+AnagraficoDiBaseTM.PARTITA_IVA+" = ? ";
+			+ "ON C."+ClienteSoftreTM.ID_ANAGRAFICO+" = A."+AnagraficoDiBasePrimroseTM.ID_ANAGRAFICO+" "
+			+ "WHERE A."+AnagraficoDiBasePrimroseTM.PARTITA_IVA+" = ? ";
 	
 	public static CachedStatement cClienteDaPIVA = new CachedStatement(SELECT_CLIENTE_FROM_PIVA);
 	
@@ -49,7 +52,8 @@ public class ClienteSoftre extends ClienteSoftrePO {
 		      rs = ps.executeQuery();
 		      if (rs.next()){
 		        cliente = (ClienteSoftre) ClienteSoftre.elementWithKey(ClienteSoftre.class, 
-		        		Integer.valueOf(rs.getInt(AnagraficoDiBaseTM.PARTITA_IVA)).toString(), PersistentObject.NO_LOCK);
+		        		KeyHelper.buildObjectKey(new String[] {Azienda.getAziendaCorrente(),Integer.valueOf(rs.getInt(ClienteSoftreTM.ID_ANAGRAFICO)).toString()})
+		        		, PersistentObject.NO_LOCK);
 		      }
 		    } catch (SQLException e) {
 				e.printStackTrace(Trace.excStream);
@@ -63,6 +67,23 @@ public class ClienteSoftre extends ClienteSoftrePO {
 		      }
 		    }
 		return cliente;
+	}
+	
+	/**
+	 * @author Daniele Signoroni 22/05/2024
+	 * <p>
+	 * Prima stesura.<br>
+	 * Questo serve per le classi dove ho una RD su ClienteSoftre.<br>
+	 * Nel caso in cui io metta come decodifica la ragione sociale (mappato su attributo) il sistema 
+	 * usa questo metodo per reperire la decodifica, visto che essa non e' un (mappato su TM).<br>
+	 * </p>
+	 * @return
+	 */
+	public String getRagioneSociale() {
+		if(getAnagraficodibase() != null) {
+			return getAnagraficodibase().getRagioneSociale();
+		}
+		return null;
 	}
 
 }

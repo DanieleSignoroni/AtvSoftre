@@ -1,0 +1,5 @@
+<BR>Il seguente entità <B>(AttivitaCollabo)</B> è stato salvato
+<BR>Il seguente entità <B>(AttivitaChat)</B> è stato salvato
+<BR>Il seguente entità <B>(AttivitaSoftre)</B> è stato salvato
+<BR>Il voce di menu <B>null/AttivitaSoftre</B> è stato salvato per l'uttente <B>ADMIN_001</B>
+<BR><B>Generazione entità e voci di menù è completata con successo</B><BR>

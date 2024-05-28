@@ -30,7 +30,7 @@ public class ClienteSoftreResource extends BaseResource {
 	
 	@POST
 	@Path("/aggiorna")
-	public Response aggiornaInformazioniCliente(String body) {
+	public Response aggiornaClienteSoftre(String body) {
 		JSONObject result = clienteService.aggiornaClienteSoftre(body);
 		Status status = (Status) result.get("status");
 		if(status.equals(Status.OK)) {

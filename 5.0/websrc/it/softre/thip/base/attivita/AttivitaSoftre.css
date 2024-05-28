@@ -1,0 +1,19 @@
+input, select, textarea {
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.quotazioni{
+	width: 55%;
+}
+
+.date{
+	width: 50%;
+}
+
+.tabbed_page{
+	padding-left: 1rem;
+	padding-top: 1rem;
+}

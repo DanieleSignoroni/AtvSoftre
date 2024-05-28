@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TDDML SYSTEM "../../../TDDML.dtd">
+<TDDML>
+  <!-- ATTIVITA_SOFTRE (ATTIVIT) -->
+  <AlterTable schema="SOFTRE" name="ATTIVITA_SOFTRE">
+    <AddConstraint>
+      <Constraint name="ClienteSoftre_4552" refschema="SOFTRE" reftable="CLIENTE_SOFTRE" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="R_CLIENTE_SOFTRE"/>
+      </Constraint>
+      <Constraint name="Incaricato_2901883" refschema="THIP" reftable="UTENTI" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="R_INCARICATO"/>
+      </Constraint>
+      <Constraint name="Azienda_1973667563" refschema="THIP" reftable="AZIENDE_ESTESE" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="ID_AZIENDA"/>
+      </Constraint>
+    </AddConstraint>
+  </AlterTable>
+  <!-- ATTIVITA_COLLABORATORE (ATTIVI0) -->
+  <AlterTable schema="SOFTRE" name="ATTIVITA_COLLABORATORE">
+    <AddConstraint>
+      <Constraint name="Utente_673450087" refschema="THIP" reftable="UTENTI" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="R_UTENTE"/>
+      </Constraint>
+      <Constraint name="Azienda_1860443096" refschema="THIP" reftable="AZIENDE_ESTESE" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="ID_AZIENDA"/>
+      </Constraint>
+      <Constraint name="AttivitaCollaborat" refschema="SOFTRE" reftable="ATTIVITA_SOFTRE" schema="SOFTRE" ondelete="Cascade">
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID"/>
+      </Constraint>
+    </AddConstraint>
+  </AlterTable>
+  <!-- ATTIVITA_CHAT (ATTIVI1) -->
+  <AlterTable schema="SOFTRE" name="ATTIVITA_CHAT">
+    <AddConstraint>
+      <Constraint name="Azienda_2095981385" refschema="THIP" reftable="AZIENDE_ESTESE" schema="SOFTRE" ondelete="Restrict">
+        <ColumnRef name="ID_AZIENDA"/>
+      </Constraint>
+      <Constraint name="AttivitaChat_15151" refschema="SOFTRE" reftable="ATTIVITA_SOFTRE" schema="SOFTRE" ondelete="Cascade">
+        <ColumnRef name="ID_AZIENDA"/>
+        <ColumnRef name="ID"/>
+      </Constraint>
+    </AddConstraint>
+  </AlterTable>
+</TDDML>

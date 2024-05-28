@@ -1,3 +1,0 @@
-<B>2024-05-20 12:17:43</B>
-<BR>Il descrittore di classe <B>ClienteSoftre</B> è stato generato correttamente
-<BR><B>La generazione descrittori di classe è completata con successo</B><BR>

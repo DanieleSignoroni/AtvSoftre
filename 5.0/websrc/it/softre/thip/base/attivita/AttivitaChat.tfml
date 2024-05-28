@@ -1,0 +1,21 @@
+<tfml>
+<generator type="internalRowForm"/>
+
+<form classHdr="AttivitaChat"
+	name="AttivitaChatForm"
+			errorList="no"
+			inputFont="Arial,10"
+			menubar="no"
+			submitReset="none"
+			onLoadPresent = "no"
+			toolbar="no">
+
+	<textinput classAD="Id" name="Id"/>
+	<textinput classAD="MessageId" name="MessageId"/>
+	<textinput classAD="IdAzienda" name="IdAzienda"/>
+	<textarea classAD="Message" name="Message"/>
+	
+	
+</form>
+
+</tfml>

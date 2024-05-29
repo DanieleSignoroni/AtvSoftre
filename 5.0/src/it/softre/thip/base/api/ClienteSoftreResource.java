@@ -11,7 +11,10 @@ import org.json.JSONObject;
 
 import com.thera.thermfw.rs.BaseResource;
 
+import it.softre.thip.base.cliente.ClienteSoftre;
+
 /**
+ * Endpoint per la gestione del {@link ClienteSoftre}.<br>
  * <h1>Softre Solutions</h1>
  * <br>
  * @author Daniele Signoroni 20/05/2024
@@ -28,6 +31,16 @@ public class ClienteSoftreResource extends BaseResource {
 	
 	private ClienteSoftreService clienteService = ClienteSoftreService.getInstance();
 	
+	/**
+	 * Si occupa di aggiornare alcune informazioni dell'oggetto cliente softre.<br>
+	 * Questo endpoint viene chiamato da ogni singolo tomcat/webSphere all'avvio dei nostri clienti.<br>
+	 * @author Daniele Signoroni 29/05/2024
+	 * <p>
+	 * Prima stesura.<br>
+	 * </p>
+	 * @param body
+	 * @return
+	 */
 	@POST
 	@Path("/aggiorna")
 	public Response aggiornaClienteSoftre(String body) {

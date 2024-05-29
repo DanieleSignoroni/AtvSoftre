@@ -4,15 +4,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </link>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
-    rel="stylesheet">
-  </link>
   <link href="it/softre/thip/base/attivita/AttivitaSoftre.css" type="text/css" rel="stylesheet">
   </link>
 </head>
@@ -34,187 +29,193 @@
         <td>
           <span class="tabbed" id="mytabbed">
             <span class="tab" id="tab1">
-              <table>
+              <table style="width: 100%;">
                 <tr>
-                  <td valign="top">
-                    <label for="Id"></label>
+                  <td valign="top" style="width: 35%;">
+                    <table>
+                      <tr>
+                        <td>
+                          <label for="Id"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="Id" name="Id"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="NomeAttivita"></label>
+                        </td>
+                        <td valign="top">
+                          <textarea id="NomeAttivita" name="NomeAttivita" cols="60" rows="5"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <fieldset class="date">
+                            <legend>Date - Attivita</legend>
+                            <table>
+                              <tr>
+                                <td valign="top">
+                                  <label for="DataPrevistaConsegna"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="DataPrevistaConsegna" name="DataPrevistaConsegna"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="DataIncontroCliente"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="DataIncontroCliente" name="DataIncontroCliente"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="DataCompletamento"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="DataCompletamento" name="DataCompletamento"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="DataInizio"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="DataFine" name="DataFine"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="DataFine"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="DataInizio" name="DataInizio"></input>
+                                </td>
+                              </tr>
+                            </table>
+                          </fieldset>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <fieldset class="quotazioni">
+                            <legend>Quotazione - Informazioni</legend>
+                            <table>
+                              <tr>
+                                <td valign="top">
+                                  <label for="QuotazioneOre"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="QuotazioneOre" name="QuotazioneOre"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="QuotazioneGg"></label>
+                                </td>
+                                <td valign="top">
+                                  <input id="QuotazioneGg" name="QuotazioneGg"></input>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="TipoFatturazione"></label>
+                                </td>
+                                <td valign="top">
+                                  <select name="TipoFatturazione" id="TipoFatturazione"></select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <label for="StatoCnfCliente"></label>
+                                </td>
+                                <td valign="top">
+                                  <select name="StatoCnfCliente" id="StatoCnfCliente"></select>
+                                </td>
+                              </tr>
+                            </table>
+                          </fieldset>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="ClienteSoftre"></label>
+                        </td>
+                        <td valign="top">
+                          <span class="multisearchform" id="ClienteSoftre"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="Incaricato"></label>
+                        </td>
+                        <td valign="top">
+                          <span class="multisearchform" id="Incaricato"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="DescrizioneAttivita"></label>
+                        </td>
+                        <td valign="top">
+                          <textarea id="DescrizioneAttivita" name="DescrizioneAttivita" cols="60" rows="5"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="TicketSisthema"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="TicketSisthema" name="TicketSisthema"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="RichiedenteSoftre"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="RichiedenteSoftre" name="RichiedenteSoftre"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="RichiedenteCliente"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="RichiedenteCliente" name="RichiedenteCliente"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="Priorita"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="Priorita" name="Priorita"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="CommessaSmeup"></label>
+                        </td>
+                        <td valign="top">
+                          <input id="CommessaSmeup" name="CommessaSmeup"></input>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <label for="StatoAttivita"></label>
+                        </td>
+                        <td valign="top">
+                          <select name="StatoAttivita" id="StatoAttivita"></select>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
-                  <td valign="top">
-                    <input id="Id" name="Id"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="NomeAttivita"></label>
-                  </td>
-                  <td valign="top">
-                    <textarea id="NomeAttivita" name="NomeAttivita" cols="60" rows="5"></textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <fieldset class="date">
-                      <legend>Date - Attivita</legend>
-                      <table>
-                        <tr>
-                          <td valign="top">
-                            <label for="DataPrevistaConsegna"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="DataPrevistaConsegna" name="DataPrevistaConsegna"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="DataIncontroCliente"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="DataIncontroCliente" name="DataIncontroCliente"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="DataCompletamento"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="DataCompletamento" name="DataCompletamento"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="DataInizio"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="DataFine" name="DataFine"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="DataFine"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="DataInizio" name="DataInizio"></input>
-                          </td>
-                        </tr>
-                      </table>
-                    </fieldset>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <fieldset class="quotazioni">
-                      <legend>Quotazione - Informazioni</legend>
-                      <table>
-                        <tr>
-                          <td valign="top">
-                            <label for="QuotazioneOre"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="QuotazioneOre" name="QuotazioneOre"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="QuotazioneGg"></label>
-                          </td>
-                          <td valign="top">
-                            <input id="QuotazioneGg" name="QuotazioneGg"></input>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="TipoFatturazione"></label>
-                          </td>
-                          <td valign="top">
-                            <select name="TipoFatturazione" id="TipoFatturazione"></select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <label for="StatoCnfCliente"></label>
-                          </td>
-                          <td valign="top">
-                            <select name="StatoCnfCliente" id="StatoCnfCliente"></select>
-                          </td>
-                        </tr>
-                      </table>
-                    </fieldset>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr>
-                  <td valign="top">
-                    <label for="ClienteSoftre"></label>
-                  </td>
-                  <td valign="top">
-                    <span class="multisearchform" id="ClienteSoftre"></span>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="Incaricato"></label>
-                  </td>
-                  <td valign="top">
-                    <span class="multisearchform" id="Incaricato"></span>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr>
-                  <td valign="top">
-                    <label for="DescrizioneAttivita"></label>
-                  </td>
-                  <td valign="top">
-                    <textarea id="DescrizioneAttivita" name="DescrizioneAttivita" cols="60" rows="5"></textarea>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="TicketSisthema"></label>
-                  </td>
-                  <td valign="top">
-                    <input id="TicketSisthema" name="TicketSisthema"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="RichiedenteSoftre"></label>
-                  </td>
-                  <td valign="top">
-                    <input id="RichiedenteSoftre" name="RichiedenteSoftre"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="RichiedenteCliente"></label>
-                  </td>
-                  <td valign="top">
-                    <input id="RichiedenteCliente" name="RichiedenteCliente"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="Priorita"></label>
-                  </td>
-                  <td valign="top">
-                    <input id="Priorita" name="Priorita"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="CommessaSmeup"></label>
-                  </td>
-                  <td valign="top">
-                    <input id="CommessaSmeup" name="CommessaSmeup"></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <label for="StatoAttivita"></label>
-                  </td>
-                  <td valign="top">
-                    <select name="StatoAttivita" id="StatoAttivita"></select>
+                  <td style="width: 75%;">
+                    <h3>Chat</h3>
+                    <jsp:include page="/it/softre/thip/base/attivita/Chat.jsp" flush="true"></jsp:include>
                   </td>
                 </tr>
               </table>
@@ -235,7 +236,7 @@
                     <input id="ProprietarioAnalisi" name="ProprietarioAnalisi"></input>
                   </td>
                 </tr>
-                 <tr>
+                <tr>
                   <td valign="top" colspan="4">
                     <iframe id="AnalisiFrame" style="height: 75vh;
   width: -webkit-fill-available;
@@ -262,7 +263,7 @@
                     <textarea id="LinkFolderAllegati" name="LinkFolderAllegati" cols="60" rows="5"></textarea>
                   </td>
                 </tr>
-                 <tr>
+                <tr>
                   <td valign="top" colspan="4">
                     <iframe id="DocumentazioneFrame" style="height: 75vh;
   width: -webkit-fill-available;
@@ -307,11 +308,6 @@
                   <td valign="top">
                   </td>
                 </tr>
-              </table>
-            </span>
-            <span class="tab" id="tab6">
-            <jsp:include page="/it/softre/thip/base/attivita/Chat.jsp" flush="true"></jsp:include>
-              <table style="height:100%; width:100%">
               </table>
             </span>
           </span>

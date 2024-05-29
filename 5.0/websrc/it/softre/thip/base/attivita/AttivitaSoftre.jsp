@@ -78,11 +78,11 @@
   WebScript script_0 =  
    new com.thera.thermfw.web.WebScript(); 
  script_0.setRequest(request); 
- script_0.setSrcAttribute("https://code.jquery.com/jquery-3.4.1.slim.min.js"); 
+ script_0.setSrcAttribute("https://code.jquery.com/jquery-3.6.0.min.js"); 
  script_0.setLanguageAttribute(null); 
   script_0.write(out); 
 %>
-<!--<script crossorigin="anonymous" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
   <% 
   WebScript script_1 =  
    new com.thera.thermfw.web.WebScript(); 
@@ -96,21 +96,10 @@
   WebLink link_0 =  
    new com.thera.thermfw.web.WebLink(); 
  link_0.setHttpServletRequest(request); 
- link_0.setHRefAttribute("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"); 
+ link_0.setHRefAttribute("it/softre/thip/base/attivita/AttivitaSoftre.css"); 
  link_0.setRelAttribute("stylesheet"); 
  link_0.setTypeAttribute("text/css"); 
   link_0.write(out); 
-%>
-<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css">
-  -->
-  <% 
-  WebLink link_1 =  
-   new com.thera.thermfw.web.WebLink(); 
- link_1.setHttpServletRequest(request); 
- link_1.setHRefAttribute("it/softre/thip/base/attivita/AttivitaSoftre.css"); 
- link_1.setRelAttribute("stylesheet"); 
- link_1.setTypeAttribute("text/css"); 
-  link_1.write(out); 
 %>
 <!--<link href="it/softre/thip/base/attivita/AttivitaSoftre.css" rel="stylesheet" type="text/css">
   -->
@@ -187,7 +176,6 @@
  mytabbed.addTab("tab3", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab3", "AttivitaSoftre", null, null, null, null); 
  mytabbed.addTab("tab4", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab4", "AttivitaSoftre", null, null, null, null); 
  mytabbed.addTab("tab5", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab5", "AttivitaSoftre", null, null, null, null); 
- mytabbed.addTab("tab6", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab6", "AttivitaSoftre", null, null, null, null); 
   mytabbed.write(out); 
 %>
 
@@ -198,13 +186,16 @@
             <div class="tabbed_page" id="<%=mytabbed.getTabPageId("tab1")%>" style="width:100%;height:100%;overflow:auto;"><% mytabbed.startTab("tab1"); %>
               <table>
                 <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "Id", null); 
+                  <td style="width: 35%;" valign="top">
+                    <table>
+                      <tr>
+                        <td>
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "Id", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="Id"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreId =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "Id"); 
   AttivitaSoftreId.setParent(AttivitaSoftreForm); 
@@ -213,16 +204,16 @@
   AttivitaSoftreId.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "NomeAttivita", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "NomeAttivita", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="NomeAttivita"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreNomeAttivita =  
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "NomeAttivita"); 
   AttivitaSoftreNomeAttivita.setParent(AttivitaSoftreForm); 
@@ -231,21 +222,21 @@
   AttivitaSoftreNomeAttivita.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <fieldset class="date">
-                      <legend>Date - Attivita</legend>
-                      <table>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataPrevistaConsegna", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <fieldset class="date">
+                            <legend>Date - Attivita</legend>
+                            <table>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataPrevistaConsegna", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DataPrevistaConsegna"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreDataPrevistaConsegna =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "DataPrevistaConsegna"); 
   AttivitaSoftreDataPrevistaConsegna.setShowCalendarBtn(true); 
@@ -255,16 +246,16 @@
   AttivitaSoftreDataPrevistaConsegna.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataIncontroCliente", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataIncontroCliente", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DataIncontroCliente"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreDataIncontroCliente =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "DataIncontroCliente"); 
   AttivitaSoftreDataIncontroCliente.setShowCalendarBtn(true); 
@@ -274,16 +265,16 @@
   AttivitaSoftreDataIncontroCliente.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataCompletamento", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataCompletamento", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DataCompletamento"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreDataCompletamento =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "DataCompletamento"); 
   AttivitaSoftreDataCompletamento.setShowCalendarBtn(true); 
@@ -293,16 +284,16 @@
   AttivitaSoftreDataCompletamento.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataInizio", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataInizio", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DataInizio"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreDataFine =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "DataFine"); 
   AttivitaSoftreDataFine.setShowCalendarBtn(true); 
@@ -312,16 +303,16 @@
   AttivitaSoftreDataFine.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataFine", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataFine", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DataFine"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreDataInizio =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "DataInizio"); 
   AttivitaSoftreDataInizio.setShowCalendarBtn(true); 
@@ -331,25 +322,25 @@
   AttivitaSoftreDataInizio.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                      </table>
-                    </fieldset>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <fieldset class="quotazioni">
-                      <legend>Quotazione - Informazioni</legend>
-                      <table>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "QuotazioneOre", null); 
+                                </td>
+                              </tr>
+                            </table>
+                          </fieldset>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <fieldset class="quotazioni">
+                            <legend>Quotazione - Informazioni</legend>
+                            <table>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "QuotazioneOre", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="QuotazioneOre"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreQuotazioneOre =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "QuotazioneOre"); 
   AttivitaSoftreQuotazioneOre.setParent(AttivitaSoftreForm); 
@@ -358,16 +349,16 @@
   AttivitaSoftreQuotazioneOre.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "QuotazioneGg", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "QuotazioneGg", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="QuotazioneGg"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebTextInput AttivitaSoftreQuotazioneGg =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "QuotazioneGg"); 
   AttivitaSoftreQuotazioneGg.setParent(AttivitaSoftreForm); 
@@ -376,16 +367,16 @@
   AttivitaSoftreQuotazioneGg.write(out); 
 %>
 
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "TipoFatturazione", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "TipoFatturazione", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="TipoFatturazione"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebComboBox AttivitaSoftreTipoFatturazione =  
      new com.thera.thermfw.web.WebComboBox("AttivitaSoftre", "TipoFatturazione", null); 
   AttivitaSoftreTipoFatturazione.setParent(AttivitaSoftreForm); 
@@ -394,16 +385,16 @@
   AttivitaSoftreTipoFatturazione.write(out); 
 %> 
 </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td valign="top">
-                            <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "StatoCnfCliente", null); 
+                                </td>
+                              </tr>
+                              <tr>
+                                <td valign="top">
+                                  <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "StatoCnfCliente", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="StatoCnfCliente"><%label.write(out);%></label><%}%>
-                          </td>
-                          <td valign="top">
-                            <% 
+                                </td>
+                                <td valign="top">
+                                  <% 
   WebComboBox AttivitaSoftreStatoCnfCliente =  
      new com.thera.thermfw.web.WebComboBox("AttivitaSoftre", "StatoCnfCliente", null); 
   AttivitaSoftreStatoCnfCliente.setParent(AttivitaSoftreForm); 
@@ -412,56 +403,52 @@
   AttivitaSoftreStatoCnfCliente.write(out); 
 %> 
 </select>
-                          </td>
-                        </tr>
-                      </table>
-                    </fieldset>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "IdClienteSoftre", null); 
+                                </td>
+                              </tr>
+                            </table>
+                          </fieldset>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "IdClienteSoftre", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="ClienteSoftre"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebMultiSearchForm AttivitaSoftreClienteSoftre =  
      new com.thera.thermfw.web.WebMultiSearchForm("AttivitaSoftre", "ClienteSoftre", false, false, true, 1, null, null); 
   AttivitaSoftreClienteSoftre.setParent(AttivitaSoftreForm); 
   AttivitaSoftreClienteSoftre.write(out); 
 %>
 <!--<span class="multisearchform" id="ClienteSoftre"></span>-->
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "IdIncaricato", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "IdIncaricato", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="Incaricato"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebMultiSearchForm AttivitaSoftreIncaricato =  
      new com.thera.thermfw.web.WebMultiSearchForm("AttivitaSoftre", "Incaricato", false, false, true, 1, null, null); 
   AttivitaSoftreIncaricato.setParent(AttivitaSoftreForm); 
   AttivitaSoftreIncaricato.write(out); 
 %>
 <!--<span class="multisearchform" id="Incaricato"></span>-->
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DescrizioneAttivita", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DescrizioneAttivita", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="DescrizioneAttivita"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreDescrizioneAttivita =  
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "DescrizioneAttivita"); 
   AttivitaSoftreDescrizioneAttivita.setParent(AttivitaSoftreForm); 
@@ -470,16 +457,16 @@
   AttivitaSoftreDescrizioneAttivita.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "TicketSisthema", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "TicketSisthema", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="TicketSisthema"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreTicketSisthema =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "TicketSisthema"); 
   AttivitaSoftreTicketSisthema.setParent(AttivitaSoftreForm); 
@@ -488,16 +475,16 @@
   AttivitaSoftreTicketSisthema.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "RichiedenteSoftre", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "RichiedenteSoftre", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="RichiedenteSoftre"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreRichiedenteSoftre =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "RichiedenteSoftre"); 
   AttivitaSoftreRichiedenteSoftre.setParent(AttivitaSoftreForm); 
@@ -506,16 +493,16 @@
   AttivitaSoftreRichiedenteSoftre.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "RichiedenteCliente", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "RichiedenteCliente", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="RichiedenteCliente"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreRichiedenteCliente =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "RichiedenteCliente"); 
   AttivitaSoftreRichiedenteCliente.setParent(AttivitaSoftreForm); 
@@ -524,16 +511,16 @@
   AttivitaSoftreRichiedenteCliente.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "Priorita", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "Priorita", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="Priorita"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftrePriorita =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "Priorita"); 
   AttivitaSoftrePriorita.setParent(AttivitaSoftreForm); 
@@ -542,16 +529,16 @@
   AttivitaSoftrePriorita.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "CommessaSmeup", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "CommessaSmeup", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="CommessaSmeup"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebTextInput AttivitaSoftreCommessaSmeup =  
      new com.thera.thermfw.web.WebTextInput("AttivitaSoftre", "CommessaSmeup"); 
   AttivitaSoftreCommessaSmeup.setParent(AttivitaSoftreForm); 
@@ -560,24 +547,32 @@
   AttivitaSoftreCommessaSmeup.write(out); 
 %>
 
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "StatoAttivita", null); 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "StatoAttivita", null); 
    label.setParent(AttivitaSoftreForm); 
 %><label class="<%=label.getClassType()%>" for="StatoAttivita"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                    <% 
+                        </td>
+                        <td valign="top">
+                          <% 
   WebComboBox AttivitaSoftreStatoAttivita =  
      new com.thera.thermfw.web.WebComboBox("AttivitaSoftre", "StatoAttivita", null); 
   AttivitaSoftreStatoAttivita.setParent(AttivitaSoftreForm); 
 %>
 <select id="<%=AttivitaSoftreStatoAttivita.getId()%>" name="<%=AttivitaSoftreStatoAttivita.getName()%>"><% 
   AttivitaSoftreStatoAttivita.write(out); 
+request.setAttribute("parentForm", AttivitaSoftreForm); 
 %> 
 </select>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td>
+                    <h3>Chat</h3>
+                    <jsp:include flush="true" page="/it/softre/thip/base/attivita/Chat.jsp"></jsp:include>
                   </td>
                 </tr>
               </table>
@@ -619,7 +614,7 @@
 
                   </td>
                 </tr>
-                 <tr>
+                <tr>
                   <td colspan="4" valign="top">
                     <iframe id="AnalisiFrame" src style="height: 75vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
                   </td>
@@ -663,7 +658,7 @@
 
                   </td>
                 </tr>
-                 <tr>
+                <tr>
                   <td colspan="4" valign="top">
                     <iframe id="DocumentazioneFrame" src style="height: 75vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
                   </td>
@@ -744,12 +739,6 @@
                   <td valign="top">
                   </td>
                 </tr>
-              </table>
-            <% mytabbed.endTab(); %> 
-</div>
-            <div class="tabbed_page" id="<%=mytabbed.getTabPageId("tab6")%>" style="width:100%;height:100%;overflow:auto;"><% mytabbed.startTab("tab6"); %>
-            <jsp:include flush="true" page="/it/softre/thip/base/attivita/Chat.jsp"></jsp:include>
-              <table style="height:100%; width:100%">
               </table>
             <% mytabbed.endTab(); %> 
 </div>

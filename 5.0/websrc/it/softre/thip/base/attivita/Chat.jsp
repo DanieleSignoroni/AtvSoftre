@@ -31,7 +31,7 @@ if(image == null)
 .chat-container {
 	position: relative;
 	height: 70vh;
-	overflow: auto;
+	overflow: scroll;
 }
 </style>
 </head>
@@ -50,8 +50,6 @@ if(image == null)
 	<script>
         $(document).ready(function() {
         	fetchChatMessages();
-            var pollingInterval = 5000;
-//             var pollingTimer = setInterval(fetchChatMessages, pollingInterval);
             $('#messageInput').on('keydown', function(e) {
             	if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
                     event.preventDefault(); 
@@ -62,6 +60,35 @@ if(image == null)
                     fetchChatMessages();
                 }
             });
+            
+            function startFetchInterval() {
+                fetchInterval = setInterval(function() {
+                	 var chatContainer = $('#chatBody');
+                	 var isAtBottom = chatContainer.scrollTop() + chatContainer.innerHeight() >= chatContainer[0].scrollHeight 
+
+                    if (isAtBottom) {
+                    	console.log('Sono alla fine del div quindi fetcho i messaggi....');
+                    	fetchChatMessages();
+                    }
+                }, 2000);
+            }
+            
+            function stopFetchInterval() {
+                clearInterval(fetchInterval);
+            }
+            
+            $('#chatBody').on('scroll', function() {
+                var chatContainer = $(this);
+                var isAtBottom = chatContainer.scrollTop() + chatContainer.innerHeight() >= chatContainer[0].scrollHeight 
+
+                if (!isAtBottom) {
+                    stopFetchInterval();
+                } else {
+                    startFetchInterval();
+                }
+            });
+            
+            startFetchInterval();
         });
         
         function fetchChatMessages() {

@@ -110,7 +110,7 @@ public class ChatService {
 					.append("</div>")
 					.append("<div class=\"row mt-2\">")
 					.append("<div class=\"col\">")
-					.append("<p class=\"messaggio "+(isSent ? "sent" : "received")+" p-2 \">")
+					.append("<p class=\"messaggio "+(isSent ? "sent" : "received")+" p-2 \" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">")
 					.append(message)
 					.append("</p>")
 					.append("</div>")

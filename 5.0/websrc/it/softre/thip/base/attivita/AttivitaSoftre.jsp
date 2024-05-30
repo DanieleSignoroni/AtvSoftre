@@ -174,7 +174,6 @@
  mytabbed.addTab("tab1", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab1", "AttivitaSoftre", null, null, null, null); 
  mytabbed.addTab("tab2", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab2", "AttivitaSoftre", null, null, null, null); 
  mytabbed.addTab("tab3", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab3", "AttivitaSoftre", null, null, null, null); 
- mytabbed.addTab("tab4", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab4", "AttivitaSoftre", null, null, null, null); 
  mytabbed.addTab("tab5", "it.softre.thip.base.attivita.resources.AttivitaSoftre", "tab5", "AttivitaSoftre", null, null, null, null); 
   mytabbed.write(out); 
 %>
@@ -184,7 +183,7 @@
    <tr>
      <td height="100%"><div class="tabbed_pagine" id="tabbedPagine" style="position: relative; width: 100%; height: 100%;">
             <div class="tabbed_page" id="<%=mytabbed.getTabPageId("tab1")%>" style="width:100%;height:100%;overflow:auto;"><% mytabbed.startTab("tab1"); %>
-              <table>
+              <table style="width: 100%;">
                 <tr>
                   <td style="width: 35%;" valign="top">
                     <table>
@@ -567,10 +566,14 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
 %> 
 </select>
                         </td>
+                      <tr>
+                        <td colspan="2">
+                          <jsp:include flush="true" page="/it/softre/thip/base/attivita/Collaboratori.jsp"></jsp:include>
+                        </td>
                       </tr>
                     </table>
                   </td>
-                  <td>
+                  <td style="width: 75%;">
                     <h3>Chat</h3>
                     <jsp:include flush="true" page="/it/softre/thip/base/attivita/Chat.jsp"></jsp:include>
                   </td>
@@ -661,44 +664,6 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
                 <tr>
                   <td colspan="4" valign="top">
                     <iframe id="DocumentazioneFrame" src style="height: 75vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
-                  </td>
-                </tr>
-              </table>
-            <% mytabbed.endTab(); %> 
-</div>
-            <div class="tabbed_page" id="<%=mytabbed.getTabPageId("tab4")%>" style="width:100%;height:100%;overflow:auto;"><% mytabbed.startTab("tab4"); %>
-              <table style="width: 100%;">
-                <tr>
-                  <td valign="top">
-                    <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", null, "AttivitaCollaboratori"); 
-   label.setParent(AttivitaSoftreForm); 
-%><label class="<%=label.getClassType()%>" for="AttivitaCollaboratori"><%label.write(out);%></label><%}%>
-                  </td>
-                  <td valign="top">
-                  </td>
-                </tr>
-                <tr>
-                  <td valign="top">
-                    <!--<span class="editgrid" id="AttivitaCollaboratori">--><% 
-  WebEditGrid AttivitaSoftreAttivitaCollaboratori =  
-     new com.thera.thermfw.web.WebEditGrid("AttivitaSoftre", "AttivitaCollaboratori", 8, new String[]{"IdUtente", "Id", "IdAzienda", "Azienda.Descrizione", "Utente.DatiComuni.IdUtenteCrz"}, 1, null, null,false,"com.thera.thermfw.web.servlet.GridActionAdapterForIndependentRow"); 
- AttivitaSoftreAttivitaCollaboratori.setParent(AttivitaSoftreForm); 
- AttivitaSoftreAttivitaCollaboratori.setNoControlRowKeys(false); 
- AttivitaSoftreAttivitaCollaboratori.addHideAsDefault("Azienda.Descrizione"); 
- AttivitaSoftreAttivitaCollaboratori.addHideAsDefault("Utente.DatiComuni.IdUtenteCrz"); 
- AttivitaSoftreAttivitaCollaboratori.write(out); 
-%>
-<BR><% 
-   request.setAttribute("parentForm", AttivitaSoftreForm); 
-   String CDForAttivitaCollaboratori = "AttivitaCollaboratori"; 
-%>
-<jsp:include page="/it/softre/thip/base/attivita/AttivitaCollaboratore.jsp" flush="true"> 
-<jsp:param name="EditGridCDName" value="<%=CDForAttivitaCollaboratori%>"/> 
-<jsp:param name="Mode" value="NEW"/> 
-</jsp:include> 
-<!--</span>-->
-                  </td>
-                  <td valign="top">
                   </td>
                 </tr>
               </table>

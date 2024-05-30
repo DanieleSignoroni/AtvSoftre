@@ -39,7 +39,7 @@ import it.thera.thip.cs.EntitaAzienda;
  */
 
 public abstract class AttivitaSoftrePO extends EntitaAzienda
-		implements BusinessObject, Authorizable, Deletable, Conflictable {
+implements BusinessObject, Authorizable, Deletable, Conflictable {
 
 	private static AttivitaSoftre cInstance;
 
@@ -97,6 +97,12 @@ public abstract class AttivitaSoftrePO extends EntitaAzienda
 	protected OneToMany iAttivitaChat = new OneToMany(it.softre.thip.base.attivita.AttivitaChat.class, this, 3, false);
 
 	protected OneToMany iAttivitaFixes = new OneToMany(it.softre.thip.base.attivita.AttivitaFix.class, this, 3, false);
+
+	protected boolean iSalvaChat = true;
+
+	protected boolean iSalvaFix = true;
+
+	protected boolean iSalvaCollaboratori = true;
 
 	// Enumerato TipoFatturazione
 	public static final char CONSUMO = '0';
@@ -436,6 +442,30 @@ public abstract class AttivitaSoftrePO extends EntitaAzienda
 		return key;
 	}
 
+	public boolean isSalvaChat() {
+		return iSalvaChat;
+	}
+
+	public void setSalvaChat(boolean iSalvaChat) {
+		this.iSalvaChat = iSalvaChat;
+	}
+
+	public boolean isSalvaFix() {
+		return iSalvaFix;
+	}
+
+	public void setSalvaFix(boolean iSalvaFix) {
+		this.iSalvaFix = iSalvaFix;
+	}
+
+	public boolean isSalvaCollaboratori() {
+		return iSalvaCollaboratori;
+	}
+
+	public void setSalvaCollaboratori(boolean iSalvaCollaboratori) {
+		this.iSalvaCollaboratori = iSalvaCollaboratori;
+	}
+
 	@SuppressWarnings("rawtypes")
 	public List getAttivitaCollaboratori() {
 		return getAttivitaCollaboratoriInternal();
@@ -496,11 +526,20 @@ public abstract class AttivitaSoftrePO extends EntitaAzienda
 	public boolean isDeletable() {
 		return checkDelete() == null;
 	}
+	
+	public void setSalvaSoloTestata(boolean salvaSoloTestata) {
+		setSalvaChat(!salvaSoloTestata);
+		setSalvaFix(!salvaSoloTestata);
+		setSalvaCollaboratori(!salvaSoloTestata);
+	}
 
 	public int saveOwnedObjects(int rc) throws SQLException {
-		rc = iAttivitaCollaboratori.save(rc);
-		rc = iAttivitaChat.save(rc);
-		rc = iAttivitaFixes.save(rc);
+		if(isSalvaCollaboratori())
+			rc = iAttivitaCollaboratori.save(rc);
+		if(isSalvaChat())
+			rc = iAttivitaChat.save(rc);
+		if(isSalvaFix())
+			rc = iAttivitaFixes.save(rc);
 		return rc;
 	}
 

@@ -246,8 +246,6 @@
 %>
 
                                 </td>
-                              </tr>
-                              <tr>
                                 <td valign="top">
                                   <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataIncontroCliente", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -284,8 +282,6 @@
 %>
 
                                 </td>
-                              </tr>
-                              <tr>
                                 <td valign="top">
                                   <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataInizio", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -303,8 +299,6 @@
 %>
 
                                 </td>
-                              </tr>
-                              <tr>
                                 <td valign="top">
                                   <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "DataFine", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -349,8 +343,6 @@
 %>
 
                                 </td>
-                              </tr>
-                              <tr>
                                 <td valign="top">
                                   <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "QuotazioneGg", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -385,8 +377,6 @@
 %> 
 </select>
                                 </td>
-                              </tr>
-                              <tr>
                                 <td valign="top">
                                   <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "StatoCnfCliente", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -567,7 +557,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
 </select>
                         </td>
                       <tr>
-                        <td colspan="2">
+                        <td colspan="2" class="mt-1 p-5">
                           <jsp:include flush="true" page="/it/softre/thip/base/attivita/Collaboratori.jsp"></jsp:include>
                         </td>
                       </tr>

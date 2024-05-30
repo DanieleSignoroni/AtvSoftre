@@ -32,10 +32,18 @@ List<AttivitaCollaboratore> collaboratori = attivita.getAttivitaCollaboratori();
         .custom-context-menu li:hover {
             background-color: #f1f1f1;
         }
+        .collaboratore-img{
+        	margin-top:10px;
+        }
+        .container-immagini{
+        	border: 1px solid black;
+        	border-radius: 10px;
+        	box-shadow:0 10px 15px -3px rgba(0,0,0,.07),0 4px 6px -2px rgba(0,0,0,.05);
+        }
     </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-fluid container-immagini">
 <div class="row">
 	<%for(AttivitaCollaboratore collaboratore : collaboratori) { %>
 		<div class="col-sm text-center right-click-div" id="<%=collaboratore.getKey()%>">

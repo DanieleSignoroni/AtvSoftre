@@ -6,11 +6,11 @@ input, select, textarea {
 }
 
 .quotazioni{
-	width: 55%;
+	width: fit-content;
 }
 
 .date{
-	width: 50%;
+	width: fit-content;
 }
 
 .tabbed_page{

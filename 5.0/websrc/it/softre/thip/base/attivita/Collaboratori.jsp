@@ -43,6 +43,7 @@ List<AttivitaCollaboratore> collaboratori = attivita.getAttivitaCollaboratori();
     </style>
 </head>
 <body>
+<%if(collaboratori.size() > 0){ %>
 <div class="container-fluid container-immagini">
 <div class="row">
 	<%for(AttivitaCollaboratore collaboratore : collaboratori) { %>
@@ -52,12 +53,13 @@ List<AttivitaCollaboratore> collaboratori = attivita.getAttivitaCollaboratori();
                         <li onclick="handleDelete('<%= collaboratore.getKey() %>')">Rimuovi collaboratore</li>
                     </ul>
                 </div>
-			<img class="collaboratore-img" style="width:75px" src="<%=collaboratore.getUrlImmagineCollaboratore()%>"></img>
+			<img class="collaboratore-img" style="width:75px;border-radius:500px;" src="<%=collaboratore.getUrlImmagineCollaboratore()%>"></img>
 			<p class="font-weight-bold"><%=collaboratore.getNomeCollaboratore() %></p>
 		</div>
 	<%} %>
 </div>
 </div>
+<%} %>
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
     const rightClickDivs = document.querySelectorAll('.right-click-div');

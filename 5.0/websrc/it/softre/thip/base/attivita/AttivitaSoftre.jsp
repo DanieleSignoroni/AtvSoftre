@@ -564,7 +564,6 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
                     </table>
                   </td>
                   <td style="width: 75%;">
-                    <h3>Chat</h3>
                     <jsp:include flush="true" page="/it/softre/thip/base/attivita/Chat.jsp"></jsp:include>
                   </td>
                 </tr>

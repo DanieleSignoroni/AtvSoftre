@@ -30,7 +30,7 @@ if(image == null)
 <style>
 .chat-container {
 	position: relative;
-	height: 70vh;
+	height: 60vh;
 	overflow: scroll;
 }
 </style>

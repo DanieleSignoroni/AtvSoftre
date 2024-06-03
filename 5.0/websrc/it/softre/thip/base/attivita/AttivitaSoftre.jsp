@@ -34,7 +34,7 @@
      new com.thera.thermfw.web.WebForm(request, response, "AttivitaSoftreForm", "AttivitaSoftre", null, "com.thera.thermfw.web.servlet.FormActionAdapter", false, false, true, true, true, true, null, 0, true, "it/softre/thip/base/attivita/AttivitaSoftre.js"); 
   AttivitaSoftreForm.setServletEnvironment(se); 
   AttivitaSoftreForm.setJSTypeList(jsList); 
-  AttivitaSoftreForm.setHeader("it.thera.thip.cs.PantheraHeader.jsp"); 
+  AttivitaSoftreForm.setHeader(null); 
   AttivitaSoftreForm.setFooter("com.thera.thermfw.common.Footer.jsp"); 
   AttivitaSoftreForm.setWebFormModifierClass("it.softre.thip.base.attivita.web.AttivitaSoftreFormModifier"); 
   AttivitaSoftreForm.setDeniedAttributeModeStr("hideNone"); 
@@ -104,18 +104,6 @@
 <!--<link href="it/softre/thip/base/attivita/AttivitaSoftre.css" rel="stylesheet" type="text/css">
   -->
 <% 
-  WebMenuBar menuBar = new com.thera.thermfw.web.WebMenuBar("HM_Array1", "150", "#000000","#000000","#A5B6CE","#E4EAEF","#FFFFFF","#000000"); 
-  menuBar.setParent(AttivitaSoftreForm); 
-   request.setAttribute("menuBar", menuBar); 
-%> 
-<jsp:include page="/it/thera/thip/cs/defObjMenu.jsp" flush="true"> 
-<jsp:param name="partRequest" value="menuBar"/> 
-</jsp:include> 
-<% 
-  menuBar.write(out); 
-  menuBar.writeChildren(out); 
-%> 
-<% 
   WebToolBar myToolBarTB = new com.thera.thermfw.web.WebToolBar("myToolBar", "24", "24", "16", "16", "#f7fbfd","#C8D6E1"); 
   myToolBarTB.setParent(AttivitaSoftreForm); 
    request.setAttribute("toolBar", myToolBarTB); 
@@ -153,12 +141,6 @@
     <table cellpadding="0" cellspacing="0" height="100%" id="emptyborder" width="100%">
       <tr>
         <td style="height:0">
-          <% menuBar.writeElements(out); %> 
-
-        </td>
-      </tr>
-      <tr>
-        <td style="height:0">
           <% myToolBarTB.writeChildren(out); %> 
 
         </td>
@@ -185,9 +167,9 @@
             <div class="tabbed_page" id="<%=mytabbed.getTabPageId("tab1")%>" style="width:100%;height:100%;overflow:auto;"><% mytabbed.startTab("tab1"); %>
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 35%;" valign="top">
+                  <td style="width: 40%;" valign="top">
                     <table>
-                      <tr>
+                      <tr style="display:none;">
                         <td>
                           <%{  WebLabelCompound label = new com.thera.thermfw.web.WebLabelCompound(null, null, "AttivitaSoftre", "Id", null); 
    label.setParent(AttivitaSoftreForm); 
@@ -217,7 +199,7 @@
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "NomeAttivita"); 
   AttivitaSoftreNomeAttivita.setParent(AttivitaSoftreForm); 
 %>
-<textarea class="<%=AttivitaSoftreNomeAttivita.getClassType()%>" cols="60" id="<%=AttivitaSoftreNomeAttivita.getId()%>" maxlength="<%=AttivitaSoftreNomeAttivita.getMaxLength()%>" name="<%=AttivitaSoftreNomeAttivita.getName()%>" rows="5" size="<%=AttivitaSoftreNomeAttivita.getSize()%>"></textarea><% 
+<textarea class="<%=AttivitaSoftreNomeAttivita.getClassType()%>" rows="2" cols="70" id="<%=AttivitaSoftreNomeAttivita.getId()%>" maxlength="<%=AttivitaSoftreNomeAttivita.getMaxLength()%>" name="<%=AttivitaSoftreNomeAttivita.getName()%>" rows="5" size="<%=AttivitaSoftreNomeAttivita.getSize()%>"></textarea><% 
   AttivitaSoftreNomeAttivita.write(out); 
 %>
 
@@ -556,14 +538,15 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
 %> 
 </select>
                         </td>
+                      </tr>
                       <tr>
-                        <td colspan="2" class="mt-1 p-5">
+                        <td colspan="2">
                           <jsp:include flush="true" page="/it/softre/thip/base/attivita/Collaboratori.jsp"></jsp:include>
                         </td>
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 75%;">
+                  <td style="width: 60%;">
                     <jsp:include flush="true" page="/it/softre/thip/base/attivita/Chat.jsp"></jsp:include>
                   </td>
                 </tr>
@@ -584,7 +567,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "LinkAnalisi"); 
   AttivitaSoftreLinkAnalisi.setParent(AttivitaSoftreForm); 
 %>
-<textarea class="<%=AttivitaSoftreLinkAnalisi.getClassType()%>" cols="60" id="<%=AttivitaSoftreLinkAnalisi.getId()%>" maxlength="<%=AttivitaSoftreLinkAnalisi.getMaxLength()%>" name="<%=AttivitaSoftreLinkAnalisi.getName()%>" rows="5" size="<%=AttivitaSoftreLinkAnalisi.getSize()%>"></textarea><% 
+<textarea class="<%=AttivitaSoftreLinkAnalisi.getClassType()%>" cols="60" rows="1" id="<%=AttivitaSoftreLinkAnalisi.getId()%>" maxlength="<%=AttivitaSoftreLinkAnalisi.getMaxLength()%>" name="<%=AttivitaSoftreLinkAnalisi.getName()%>" rows="5" size="<%=AttivitaSoftreLinkAnalisi.getSize()%>"></textarea><% 
   AttivitaSoftreLinkAnalisi.write(out); 
 %>
 
@@ -608,7 +591,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
                 </tr>
                 <tr>
                   <td colspan="4" valign="top">
-                    <iframe id="AnalisiFrame" src style="height: 75vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
+                    <iframe id="AnalisiFrame" src style="height: 80vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
                   </td>
                 </tr>
               </table>
@@ -628,7 +611,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "LinkDocumentazione"); 
   AttivitaSoftreLinkDocumentazione.setParent(AttivitaSoftreForm); 
 %>
-<textarea class="<%=AttivitaSoftreLinkDocumentazione.getClassType()%>" cols="60" id="<%=AttivitaSoftreLinkDocumentazione.getId()%>" maxlength="<%=AttivitaSoftreLinkDocumentazione.getMaxLength()%>" name="<%=AttivitaSoftreLinkDocumentazione.getName()%>" rows="5" size="<%=AttivitaSoftreLinkDocumentazione.getSize()%>"></textarea><% 
+<textarea class="<%=AttivitaSoftreLinkDocumentazione.getClassType()%>" cols="60" rows="1" id="<%=AttivitaSoftreLinkDocumentazione.getId()%>" maxlength="<%=AttivitaSoftreLinkDocumentazione.getMaxLength()%>" name="<%=AttivitaSoftreLinkDocumentazione.getName()%>" rows="5" size="<%=AttivitaSoftreLinkDocumentazione.getSize()%>"></textarea><% 
   AttivitaSoftreLinkDocumentazione.write(out); 
 %>
 
@@ -644,7 +627,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
      new com.thera.thermfw.web.WebTextArea("AttivitaSoftre", "LinkFolderAllegati"); 
   AttivitaSoftreLinkFolderAllegati.setParent(AttivitaSoftreForm); 
 %>
-<textarea class="<%=AttivitaSoftreLinkFolderAllegati.getClassType()%>" cols="60" id="<%=AttivitaSoftreLinkFolderAllegati.getId()%>" maxlength="<%=AttivitaSoftreLinkFolderAllegati.getMaxLength()%>" name="<%=AttivitaSoftreLinkFolderAllegati.getName()%>" rows="5" size="<%=AttivitaSoftreLinkFolderAllegati.getSize()%>"></textarea><% 
+<textarea class="<%=AttivitaSoftreLinkFolderAllegati.getClassType()%>" cols="60" rows="1" id="<%=AttivitaSoftreLinkFolderAllegati.getId()%>" maxlength="<%=AttivitaSoftreLinkFolderAllegati.getMaxLength()%>" name="<%=AttivitaSoftreLinkFolderAllegati.getName()%>" rows="5" size="<%=AttivitaSoftreLinkFolderAllegati.getSize()%>"></textarea><% 
   AttivitaSoftreLinkFolderAllegati.write(out); 
 %>
 
@@ -652,7 +635,7 @@ request.setAttribute("parentForm", AttivitaSoftreForm);
                 </tr>
                 <tr>
                   <td colspan="4" valign="top">
-                    <iframe id="DocumentazioneFrame" src style="height: 75vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
+                    <iframe id="DocumentazioneFrame" src style="height: 80vh;   width: -webkit-fill-available;   border: 2px solid black;   border-radius: 10px;   margin: 10px;"></iframe>
                   </td>
                 </tr>
               </table>

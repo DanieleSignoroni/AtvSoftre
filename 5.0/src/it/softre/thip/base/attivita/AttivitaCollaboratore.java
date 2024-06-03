@@ -12,7 +12,7 @@ import it.thera.thip.base.profilo.UtenteAzienda;
  * 
  * @author Daniele Signoroni 22/05/2024 <br>
  *         <br>
- *         <b>71XXX DSSOF3 22/05/2024</b>
+ *         <b>71543 DSSOF3 22/05/2024</b>
  *         <p>
  *         Prima stesura.<br>
  * 

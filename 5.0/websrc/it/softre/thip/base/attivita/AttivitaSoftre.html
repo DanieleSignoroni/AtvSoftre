@@ -17,11 +17,6 @@
     <table height="100%" width="100%" cellspacing="0" cellpadding="0" id="emptyborder">
       <tr>
         <td style="height:0">
-          <span class="menubar" id="myMenuBar" />
-        </td>
-      </tr>
-      <tr>
-        <td style="height:0">
           <span class="toolbar" id="myToolBar" />
         </td>
       </tr>
@@ -31,9 +26,9 @@
             <span class="tab" id="tab1">
               <table style="width: 100%;">
                 <tr>
-                  <td valign="top" style="width: 35%;">
+                  <td valign="top" style="width: 40%;">
                     <table>
-                      <tr>
+                      <tr style="display:none;">
                         <td>
                           <label for="Id"></label>
                         </td>
@@ -46,7 +41,7 @@
                           <label for="NomeAttivita"></label>
                         </td>
                         <td valign="top">
-                          <textarea id="NomeAttivita" name="NomeAttivita" cols="60" rows="5"></textarea>
+                          <textarea id="NomeAttivita" name="NomeAttivita" rows="2" cols="70"></textarea>
                         </td>
                       </tr>
                       <tr>
@@ -200,15 +195,16 @@
                         <td valign="top">
                           <select name="StatoAttivita" id="StatoAttivita"></select>
                         </td>
+                      </tr>
                       <tr>
-                        <td colspan="2" class="mt-1 p-5">
-                          <jsp:include page="/it/softre/thip/base/attivita/Collaboratori.jsp" flush="true"></jsp:include>
+                        <td colspan="2">
+                          <jsp:include page="/it/softre/thip/base/attivita/Collaboratori.jsp" flush="true">
+                          </jsp:include>
                         </td>
                       </tr>
                     </table>
                   </td>
-                  <td style="width: 75%;">
-                    <h3>Chat</h3>
+                  <td style="width: 60%;">
                     <jsp:include page="/it/softre/thip/base/attivita/Chat.jsp" flush="true"></jsp:include>
                   </td>
                 </tr>

@@ -31,7 +31,7 @@ import it.thera.thip.cs.EntitaAzienda;
  * 
  * @author Daniele Signoroni 21/05/2024 <br>
  *         <br>
- *         <b>71XXX DSSOF3 21/05/2024</b>
+ *         <b>71543 DSSOF3 21/05/2024</b>
  *         <p>
  *         Prima stesura.<br>
  * 

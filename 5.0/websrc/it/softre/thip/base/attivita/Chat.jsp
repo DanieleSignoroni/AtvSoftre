@@ -40,11 +40,11 @@ out.print(WebJSTypeList.getImportForJSLibrary("it/softre/thip/base/attivita/js/c
 	    <div class="upload-file-message">
 	    	<i id="file-upload-icon" class="fa fa-upload fa-3x" aria-hidden="true"></i>
 	    </div>
+	    <div id="file-status-container"></div>
 	    <div class="input-container">
-	        <div id="preview-container"></div>
 	        <div id="message-input" class="message-input-contenteditable" contenteditable="true"></div>
 	    </div>
-	    <div class="btn-send-message">
+	    <div class="btn-send-message" id="send-message-icon">
 	    	<i class="fa fa-paper-plane fa-3x" aria-hidden="true"></i>
 	    </div>
 	    <input type="file" id="file-input" style="display: none;">

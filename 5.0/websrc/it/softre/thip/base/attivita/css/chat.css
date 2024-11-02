@@ -52,8 +52,8 @@
 
 #chat-container {
 	overflow-y: auto;
-	height: 80vh;
-	max-height: 80vh;
+	height: 75vh;
+	max-height: 75vh;
 	transition: height 0.2s ease;
 }
 
@@ -154,4 +154,55 @@
 	margin-right: 0.50rem;
 	margin-left: 0.50rem;
 	cursor: pointer;
+}
+
+#file-status-container .file-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+    border-radius: 15px;
+    height: 48px;
+    border: 1px solid black;
+    margin-right: 0.75rem;
+}
+
+#file-status-container .remove-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.file-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc; /* or your desired border */
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.file-icon {
+    width: 30px; /* Adjust size as needed */
+    height: 30px;
+    margin-right: 10px; /* Space between icon and file name */
+}
+
+.file-name {
+    font-size: 14px; /* Adjust size as needed */
+}
+
+.comandi-end {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.comandi-start{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 5px;
 }

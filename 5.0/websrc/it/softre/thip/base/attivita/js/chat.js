@@ -10,16 +10,10 @@ $(document).ready(function() {
 	$('#message-input').on('keydown', function(e) {
 		if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
 			e.preventDefault();
-			var message = $('#message-input').text().trim();
+			let message = $('#message-input').text().trim();
 			const file = formData.get('file');
 			if (message != "" || file != null) {
 				sendMessage(idAttivita, message, file);
-				$('#message-input').html('');
-				$('#preview-container').html('');
-				//fetchChatMessages();
-				formData.forEach(function(key) {
-					formData.delete(key);
-				});
 			}
 		}
 	});
@@ -88,6 +82,14 @@ $(document).ready(function() {
 		$('#file-input').click(); // Opens the file picker dialog
 	});
 
+	$('#send-message-icon').on('click', function() {
+		const file = formData.get('file');
+		let message = $('#message-input').text().trim();
+		if (message != "" || file != null) {
+			sendMessage(idAttivita, message, file);
+		}
+	});
+
 	$('#file-input').on('change', function(event) {
 		const file = event.target.files[0];
 		if (file) {
@@ -98,6 +100,8 @@ $(document).ready(function() {
 					displayImagePreview(event); // Display image preview
 				};
 				reader.readAsDataURL(file); // Read the image file as a data URL
+			} else {
+				displayFileStatus(file.name);
 			}
 			formData.append('file', file);
 		}
@@ -131,6 +135,32 @@ function displayImagePreview(event) {
 	imageContainer.appendChild(img);
 	imageContainer.appendChild(cross); // Append the cross to the container
 	document.getElementById('message-input').appendChild(imageContainer);
+}
+
+function displayFileStatus(fileName) {
+	const fileStatusContainer = document.getElementById('file-status-container');
+	fileStatusContainer.innerHTML = ''; // Clear previous status if any
+
+	const fileStatus = document.createElement('div');
+	fileStatus.className = 'file-status';
+	fileStatus.id = 'file-status';
+
+	const fileNameSpan = document.createElement('span');
+	fileNameSpan.textContent = `File: ${fileName}`;
+
+	const removeButton = document.createElement('button');
+	removeButton.textContent = 'X';
+	removeButton.className = 'remove-button';
+
+	// Add event listener to remove the file from formData and UI
+	removeButton.addEventListener('click', function() {
+		fileStatusContainer.innerHTML = ''; // Clear file status
+		formData.delete('file'); // Remove file from formData
+	});
+
+	fileStatus.appendChild(fileNameSpan);
+	fileStatus.appendChild(removeButton);
+	fileStatusContainer.appendChild(fileStatus);
 }
 
 function handlePaste(event) {
@@ -172,6 +202,16 @@ function sendMessage(idAttivita) {
 	}).then(response => {
 		if (!response.ok) {
 			throw new Error('Network response was not ok ' + response.statusText);
+		} else {
+			$('#message-input').html('');
+			formData.forEach(function(key) {
+				formData.delete(key);
+			});
+			if (document.getElementById('file-status') != undefined && document.getElementById('file-status') != null) {
+				document.getElementById('file-status').innerHTML = '';
+			}
+			document.getElementById('file-status-container').innerHTML = '';
+
 		}
 		return response;
 	}).catch(error => {
@@ -179,30 +219,42 @@ function sendMessage(idAttivita) {
 	});
 }
 
+function downloadAttachment(element) {
+	var input = element.parentNode.querySelectorAll('.attachment-content')[0];
+	var base64Content = input.value;
+	const decodedContent = atob(base64Content);
 
-//function viewPlainText(element) {
-//	var hiddenInput = $(element).siblings('.attachment-content');
-//	var base64Content = hiddenInput.val();
-//	var decodedContent = atob(base64Content);
-//
-//	var modalHtml = '<div class="modal">' +
-//		'<div class="modal-content">' +
-//		'<span class="close">&times;</span>' +
-//		'<pre>' + escapeHtml(decodedContent) + '</pre>' +
-//		'</div>' +
-//		'</div>';
-//	$('body').append(modalHtml);
-//
-//	$(document).on('click', '.close, .modal', function() {
-//		$('.modal').remove();
-//	});
-//}
-//
-//function escapeHtml(text) {
-//	var div = document.createElement('div');
-//	div.textContent = text;
-//	return div.innerHTML;
-//}
+	const blob = new Blob([decodedContent], { type: 'text/plain' });
+
+	const downloadLink = document.createElement('a');
+	downloadLink.href = URL.createObjectURL(blob);
+	downloadLink.download = input.dataset.filename;
+
+	downloadLink.click();
+
+	URL.revokeObjectURL(downloadLink.href);
+}
+
+function deleteMessage(idMessage) {
+	fetch(getURLWS() + '/softre/attivita/chat/messaggio/elimina', {
+		method: 'POST',
+		body: JSON.stringify({
+			"ChiaveMessaggio": idMessage
+		}),
+		headers: {
+			'Authorization': getBearerTokenFromLocalStorage(), // Include auth token
+			'Content-Type': 'application/json' // Specify the content type as JSON
+		}
+	}).then(response => {
+		if (!response.ok) {
+			throw new Error('Network response was not ok ' + response.statusText);
+		}
+		return response;
+	}).catch(error => {
+		console.error('Error sending message:', error);
+	});
+	fetchChatMessages();
+}
 
 function fetchChatMessages() {
 	$.ajax({
@@ -223,4 +275,5 @@ function fetchChatMessages() {
 			console.error('Error fetching chat HTML:', error);
 		}
 	});
+
 }

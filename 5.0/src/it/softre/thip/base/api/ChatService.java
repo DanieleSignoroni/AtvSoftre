@@ -1,5 +1,7 @@
 package it.softre.thip.base.api;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -72,110 +75,121 @@ public class ChatService {
 		attivita.setDeepRetrieveEnabled(true);
 		String result = null;
 		try {
-			StringBuilder html = new StringBuilder();
-			html.append("<div class=\"container-fluid mt-2\">")
-			.append("            <div class=\"card\" id=\"chat2\">")
-			.append("                <div class=\"card-body chat-container fs-6\" id=\"chatBody\">");
 			boolean exist = attivita.retrieve(PersistentObject.NO_LOCK);
 			if(exist) {
 				List<AttivitaChat> conversations = attivita.getAttivitaChat();
-				for(AttivitaChat conversation : conversations) { 
-					UtenteAzienda utenteAzienda = null;
-					try {
-						utenteAzienda = (UtenteAzienda) 
-								UtenteAzienda.elementWithKey(UtenteAzienda.class,
-										KeyHelper.buildObjectKey(new String[] {
-												Azienda.getAziendaCorrente(),
-												conversation.getDatiComuni().getIdUtenteCrz().substring(0, conversation.getDatiComuni().getIdUtenteCrz().indexOf("_"))
-										}), PersistentObject.NO_LOCK);
-					} catch (Exception e) {
-						//
-					}
-
-					String image = null;
-					String nome = null;
-					if(utenteAzienda != null) {
-						Dipendente dipendente = utenteAzienda.getDipendente();
-						if(dipendente != null) {
-							image = dipendente.getURLImmagineDipendente();
-							nome = dipendente.getNome() + " " + dipendente.getCognome();
+				if(conversations.size() > 0) {
+					StringBuilder html = new StringBuilder();
+					html.append("<div class=\"container-fluid mt-2\">")
+					.append("            <div class=\"card\" id=\"chat2\">")
+					.append("                <div class=\"card-body chat-container fs-6\" id=\"chatBody\">");
+					for(AttivitaChat conversation : conversations) { 
+						UtenteAzienda utenteAzienda = null;
+						try {
+							utenteAzienda = (UtenteAzienda) 
+									UtenteAzienda.elementWithKey(UtenteAzienda.class,
+											KeyHelper.buildObjectKey(new String[] {
+													Azienda.getAziendaCorrente(),
+													conversation.getDatiComuni().getIdUtenteCrz().substring(0, conversation.getDatiComuni().getIdUtenteCrz().indexOf("_"))
+											}), PersistentObject.NO_LOCK);
+						} catch (Exception e) {
+							//
 						}
-					}
-					if(image == null)
-						image = "https://tacm.com/wp-content/uploads/2018/01/no-image-available.jpeg";
-					if(nome == null)
-						nome = conversation.getDatiComuni().getIdUtenteCrz();
 
-					boolean isSent = conversation.isSent(); 
-					String message = conversation.getMessage();
-					String timestamp = getRelativeTime(conversation.getDatiComuni().getTimestampCrz().toString());
-					html.append("<div class=\"row ")
-					.append(isSent ? "text-right" : "")
-					.append("\">")
-					.append(isSent ? "<div class=\"col-6\"></div>" : "")
-					.append("<div class=\"col-6\">")
-					.append("<div class=\"row\">")
-					.append("<div class=\"col\">")
-					.append("<img src=\"")
-					.append(image)
-					.append("\" class=\"img-fluid \" style=\"width: 48px; display: inline;border-radius:500px;\">")
-					.append("<p class=\"font-weight-bold ml-2\" style=\"display: inline;\">")
-					.append(nome)
-					.append("</p>")
-					.append("</div>")
-					.append("</div>")
-					.append("<div class=\"row mt-2\">")
-					.append("<div class=\"col messaggio "+(isSent ? "sent" : "received")+" p-2 \" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">");
-					if(conversation.getAttachment().getBytes() != null && conversation.getFileType() != null) {
-						if(!conversation.getFileType() .contains("txt")) {
-							String dataUrl = "data:image/png;base64," + Base64.getEncoder().encodeToString(conversation.getAttachment().getBytes());
-							html.append("<div class=\"row\" style=\"display:flow-root;\">");
-							if(!message.isEmpty()) {
-								html.append("<p>")
-								.append(message)
-								.append("</p>");
+						String image = null;
+						String nome = null;
+						if(utenteAzienda != null) {
+							Dipendente dipendente = utenteAzienda.getDipendente();
+							if(dipendente != null) {
+								image = dipendente.getURLImmagineDipendente();
+								nome = dipendente.getNome() + " " + dipendente.getCognome();
 							}
-							html.append("<div class=\"attachment mt-2\" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">")
-							.append("<img src=\"")
-							.append(dataUrl)
-							.append("\" class=\"img-fluid attachment-image\" style=\"max-width: 200px; cursor: pointer;\">")
-							.append("</div>")
-							.append("</div>");
-						}else {
-							String fileContent = new String(conversation.getAttachment().getBytes(), StandardCharsets.UTF_8);
+						}
+						if(image == null)
+							image = "https://tacm.com/wp-content/uploads/2018/01/no-image-available.jpeg";
+						if(nome == null)
+							nome = conversation.getDatiComuni().getIdUtenteCrz();
+
+						boolean isSent = conversation.isSent(); 
+						String message = conversation.getMessage();
+						String timestamp = getRelativeTime(conversation.getDatiComuni().getTimestampCrz().toString());
+						html.append("<div class=\"row ")
+						.append(isSent ? "text-right" : "")
+						.append("\">")
+						.append(isSent ? "<div class=\"col-6\"></div>" : "")
+						.append("<div class=\"col-6\">")
+						.append("<div class=\"row\">")
+						.append("<div class=\"col\">")
+						.append("<img src=\"")
+						.append(image)
+						.append("\" class=\"img-fluid \" style=\"width: 48px; display: inline;border-radius:500px;\">")
+						.append("<p class=\"font-weight-bold ml-2\" style=\"display: inline;\">")
+						.append(nome)
+						.append("</p>")
+						.append("</div>")
+						.append("</div>")
+						.append("<div class=\"row mt-2\">")
+						.append("<div class=\"col messaggio "+(isSent ? "sent" : "received")+" p-2 \" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">");
+						byte[] bytes = conversation.getAttachment().getBytes();
+						String fileType = conversation.getFileType();
+						if(bytes != null && fileType != null) {
+							if(isImage(bytes)) {
+								String dataUrl = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+								html.append("<div class=\"row\" style=\"display:flow-root;\">");
+								if(!message.isEmpty()) {
+									html.append("<p>")
+									.append(message)
+									.append("</p>");
+								}
+								html.append("<div class=\"attachment mt-2\" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">")
+								.append("<img src=\"")
+								.append(dataUrl)
+								.append("\" class=\"img-fluid attachment-image\" style=\"max-width: 200px; cursor: pointer;\">")
+								.append("</div>")
+								.append("</div>");
+							}
+							String fileContent = new String(bytes, StandardCharsets.UTF_8);
+							String fileCardHtml = "<div class='file-card' style='" + (isSent ? "float:right;" : "float:left; ")+"'>" +
+									"<img src='" + "it/softre/thip/base/attivita/img/generic_file.png" + "' alt='File Icon' class='file-icon'>" +
+									"<span class='file-name'>" + conversation.getFileName() + "</span>" +
+									"</div>";
 							html.append("<div class=\"attachment mt-2\" style=\"width:fit-content;" + (isSent ? "float:right;" : "float:left;") + "\">")
-							.append("<p class=\"messaggio "+(isSent ? "sent" : "received")+" p-2 \"  onclick=\"viewPlainText(this)\" style=\"cursor: pointer;width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\"><strong>Visualizza txt.</strong></p>")
+							.append(fileCardHtml)
 							.append("<input type=\"hidden\" class=\"attachment-content\" value=\"")
 							.append(Base64.getEncoder().encodeToString(fileContent.getBytes()))
-							.append("\">")
+							.append("\" data-filename="+conversation.getFileName()+" >")
 							.append("</div>");
+						}else {
+							html.append("<div class=\"row\">");
+							html.append("<p>");
+							html.append(message);
+							html.append("</p>");
+							html.append("</div>");
 						}
-					}else {
-						html.append("<div class=\"row\">");
-						html.append("<p>");
-						html.append(message);
-						html.append("</p>");
-						html.append("</div>");
+						String comandi = "<div class='"+(isSent ? "comandi-end" : "comandi-start")+"'>" +
+								"<i title=\"Cancella messaggio\" class=\"fa fa-solid fa-trash fa-1x mt-2\" style=\"cursor:pointer;\" onclick=\"deleteMessage('"+conversation.getKey()+"')\"></i>" +
+								"<i title=\"Download file\" class=\"fa fa-solid fa-download fa-1x mt-2\" style=\"cursor:pointer;margin-left:0.75rem;\" onclick=\"downloadAttachment(this)\"></i>" +
+								"</div>";
+						html.append("</div>")
+						.append(comandi)
+						.append("<div class=\"row mt-2\">")
+						.append("<p class=\"small\" style=\"display: inline;\">")
+						.append(timestamp)
+						.append("</p>")
+						.append("</div>")
+						.append("</div>")
+						.append("</div>")
+						.append("</div>")
+						.append("<div class=\"divider d-flex align-items-center mb-4\"></div>");
 					}
-					html.append("<i title=\"Cancella messaggio\" class=\"fa fa-solid fa-trash fa-1x mt-2\" style=\"cursor:pointer;\" onclick=\"deleteMessage('"+conversation.getKey()+"')\"></i></div>")
-					.append("<div class=\"row mt-2\">")
-					.append("<p class=\"small\" style=\"display: inline;\">")
-					.append(timestamp)
-					.append("</p>")
+					html.append("</div>")
 					.append("</div>")
-					.append("</div>")
-					.append("</div>")
-					.append("</div>")
-					.append("<div class=\"divider d-flex align-items-center mb-4\"></div>");
+					.append("</div>");
+					result = html.toString();
 				}
 			}
 
-			html.append("</div>")
-			.append("</div>")
-			.append("</div>");
-
 			status = Status.OK;
-			result = html.toString();
 		} catch (SQLException e) {
 			result = e.getMessage();
 			e.printStackTrace(Trace.excStream);
@@ -183,6 +197,15 @@ public class ChatService {
 		response.put("status", status);
 		response.put("response", result);
 		return response;
+	}
+
+	public static boolean isImage(byte[] fileBytes) {
+		try (ByteArrayInputStream bais = new ByteArrayInputStream(fileBytes)) {
+			BufferedImage image = ImageIO.read(bais);
+			return image != null;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/**
@@ -253,7 +276,7 @@ public class ChatService {
 		attivita.setKey(KeyHelper.buildObjectKey(new String[] {Azienda.getAziendaCorrente(),idAttivita.toString()}));
 		String result = null;
 		try {
-			boolean exist = attivita.retrieve(PersistentObject.NO_LOCK);
+			boolean exist = attivita.retrieve(PersistentObject.OPTIMISTIC_LOCK);
 			if(exist) {
 				AttivitaChat mex = (AttivitaChat) Factory.createObject(AttivitaChat.class);
 				mex.setParent(attivita);

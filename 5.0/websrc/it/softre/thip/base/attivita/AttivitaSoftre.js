@@ -14,6 +14,7 @@ function AttivitaSoftreOL() {
 			oldeditGridNewRow(classHdrName);
 		}
 	}
+	document.getElementById('NomeAttivita').focus();
 }
 
 function valorizzaGiorni(event) {
@@ -42,25 +43,53 @@ function getBearerTokenFromLocalStorage() {
 	return jwt;
 }
 
-function sendMessage(idAttivita, message) {
-	$.ajax({
-		url: getURLWS() + '/softre/attivita/chat/ricevi',
-		method: 'POST',
-		contentType: 'application/json',
+function sendMessage(idAttivita, message, file) {
+    var formData = new FormData();
+    formData.append("IdAttivita", idAttivita);
+    formData.append("Message", message);
+
+    if (file) {
+        formData.append("file", file);
+    }
+
+    $.ajax({
+        url: getURLWS() + '/softre/attivita/chat/ricevi',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', getBearerTokenFromLocalStorage());
+        },
+        success: function(response) {
+            console.log('Message sent successfully:', response);
+            fetchChatMessages();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error sending message:', error);
+        }
+    });
+}
+
+function deleteMessage(idMessage){
+	 $.ajax({
+        url: getURLWS() + '/softre/attivita/chat/messaggio/elimina',
+        method: 'POST',
+        contentType: 'application/json',
 		data: JSON.stringify({
-			"IdAttivita": idAttivita,
-			"Message": message
+			"ChiaveMessaggio": idMessage
 		}),
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader('Authorization', getBearerTokenFromLocalStorage());
-		},
-		success: function(response) {
-			$('#messageInput').val('');
-		},
-		error: function(xhr, status, error) {
-			//console.error('Error sending message:', error);
-		}
-	});
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', getBearerTokenFromLocalStorage());
+        },
+        success: function(response) {
+            console.log('Message sent successfully:', response);
+            fetchChatMessages();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error deleting message:', error);
+        }
+    });
 }
 
 

@@ -1,21 +1,34 @@
 package it.softre.thip.base.api;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.json.JSONObject;
 
 import com.thera.thermfw.base.Trace;
+import com.thera.thermfw.base.Utils;
 import com.thera.thermfw.collector.BODataCollector;
 import com.thera.thermfw.persist.ConnectionManager;
 import com.thera.thermfw.persist.Factory;
 import com.thera.thermfw.persist.KeyHelper;
 import com.thera.thermfw.persist.PersistentObject;
+import com.thera.thermfw.pref.ApplicationPreferences;
 
 import it.softre.thip.base.attivita.AttivitaChat;
 import it.softre.thip.base.attivita.AttivitaSoftre;
@@ -32,6 +45,10 @@ import it.thera.thip.base.profilo.UtenteAzienda;
  * <b>71543	DSSOF3	28/05/2024</b>
  * <p>Prima stesura.<br>
  *  
+ * </p>
+ * <b>71558	DSSOF3	20/06/2024</b>
+ * <p>
+ * Implementazione notifiche prima versione.<br>
  * </p>
  */
 
@@ -55,14 +72,13 @@ public class ChatService {
 		attivita.setDeepRetrieveEnabled(true);
 		String result = null;
 		try {
+			StringBuilder html = new StringBuilder();
+			html.append("<div class=\"container-fluid mt-2\">")
+			.append("            <div class=\"card\" id=\"chat2\">")
+			.append("                <div class=\"card-body chat-container fs-6\" id=\"chatBody\">");
 			boolean exist = attivita.retrieve(PersistentObject.NO_LOCK);
 			if(exist) {
 				List<AttivitaChat> conversations = attivita.getAttivitaChat();
-				StringBuilder html = new StringBuilder();
-				html.append("<div class=\"container-fluid mt-2\">")
-				.append("            <div class=\"card\" id=\"chat2\">")
-				.append("                <div class=\"card-body chat-container fs-6\" id=\"chatBody\">");
-
 				for(AttivitaChat conversation : conversations) { 
 					UtenteAzienda utenteAzienda = null;
 					try {
@@ -109,11 +125,39 @@ public class ChatService {
 					.append("</div>")
 					.append("</div>")
 					.append("<div class=\"row mt-2\">")
-					.append("<div class=\"col\">")
-					.append("<p class=\"messaggio "+(isSent ? "sent" : "received")+" p-2 \" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">")
-					.append(message)
-					.append("</p>")
-					.append("</div>")
+					.append("<div class=\"col messaggio "+(isSent ? "sent" : "received")+" p-2 \" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">");
+					if(conversation.getAttachment().getBytes() != null && conversation.getFileType() != null) {
+						if(!conversation.getFileType() .contains("txt")) {
+							String dataUrl = "data:image/png;base64," + Base64.getEncoder().encodeToString(conversation.getAttachment().getBytes());
+							html.append("<div class=\"row\" style=\"display:flow-root;\">");
+							if(!message.isEmpty()) {
+								html.append("<p>")
+								.append(message)
+								.append("</p>");
+							}
+							html.append("<div class=\"attachment mt-2\" style=\"width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\">")
+							.append("<img src=\"")
+							.append(dataUrl)
+							.append("\" class=\"img-fluid attachment-image\" style=\"max-width: 200px; cursor: pointer;\">")
+							.append("</div>")
+							.append("</div>");
+						}else {
+							String fileContent = new String(conversation.getAttachment().getBytes(), StandardCharsets.UTF_8);
+							html.append("<div class=\"attachment mt-2\" style=\"width:fit-content;" + (isSent ? "float:right;" : "float:left;") + "\">")
+							.append("<p class=\"messaggio "+(isSent ? "sent" : "received")+" p-2 \"  onclick=\"viewPlainText(this)\" style=\"cursor: pointer;width:fit-content;"+(isSent ? "float:right;" : "float:left;")+"\"><strong>Visualizza txt.</strong></p>")
+							.append("<input type=\"hidden\" class=\"attachment-content\" value=\"")
+							.append(Base64.getEncoder().encodeToString(fileContent.getBytes()))
+							.append("\">")
+							.append("</div>");
+						}
+					}else {
+						html.append("<div class=\"row\">");
+						html.append("<p>");
+						html.append(message);
+						html.append("</p>");
+						html.append("</div>");
+					}
+					html.append("<i title=\"Cancella messaggio\" class=\"fa fa-solid fa-trash fa-1x mt-2\" style=\"cursor:pointer;\" onclick=\"deleteMessage('"+conversation.getKey()+"')\"></i></div>")
 					.append("<div class=\"row mt-2\">")
 					.append("<p class=\"small\" style=\"display: inline;\">")
 					.append(timestamp)
@@ -124,13 +168,14 @@ public class ChatService {
 					.append("</div>")
 					.append("<div class=\"divider d-flex align-items-center mb-4\"></div>");
 				}
-				html.append("</div>")
-				.append("</div>")
-				.append("</div>");
-
-				status = Status.OK;
-				result = html.toString();
 			}
+
+			html.append("</div>")
+			.append("</div>")
+			.append("</div>");
+
+			status = Status.OK;
+			result = html.toString();
 		} catch (SQLException e) {
 			result = e.getMessage();
 			e.printStackTrace(Trace.excStream);
@@ -197,9 +242,11 @@ public class ChatService {
 	 * </p>
 	 * @param idAttivita
 	 * @param message
+	 * @param fileMetaData 
+	 * @param fileInputStream 
 	 * @return
 	 */
-	public JSONObject riceviMessaggio(Integer idAttivita, String message) {
+	public JSONObject riceviMessaggio(Integer idAttivita, String message, InputStream fileInputStream, FormDataContentDisposition fileMetaData) {
 		Status status = Status.INTERNAL_SERVER_ERROR;
 		JSONObject response = new JSONObject();
 		AttivitaSoftre attivita = (AttivitaSoftre) Factory.createObject(AttivitaSoftre.class);
@@ -211,8 +258,33 @@ public class ChatService {
 				AttivitaChat mex = (AttivitaChat) Factory.createObject(AttivitaChat.class);
 				mex.setParent(attivita);
 				mex.setMessage(message);
+				if(fileMetaData != null) { //Meta Dati file
+					mex.setFileName(fileMetaData.getFileName());
+					mex.setFileType(fileMetaData.getFileName().substring(fileMetaData.getFileName().lastIndexOf("."), fileMetaData.getFileName().length()));
+				}
 				int rc = mex.save();
+				if(fileInputStream != null) { //Aggiungere attachment file
+					ByteArrayOutputStream os = new ByteArrayOutputStream();
+					try {
+						Utils.copyStream(fileInputStream, os);
+						mex.setBytes(mex.getAttachment(), os.toByteArray());
+					} catch (IOException e) {
+						e.printStackTrace(Trace.excStream);
+					}
+				}
 				if(rc >= BODataCollector.OK) {
+					Dipendente sender = UtenteAzienda.getUtenteAziendaConnesso().getDipendente();
+					//Va inviata la notifica via mail ai collaboratori dell'attivita
+					if(sender != null) {
+						List<Dipendente> adressees = attivita.getRelatedEmployees();
+						for(Dipendente adressee : adressees) {
+							try {
+								inviaMailACollaboratore(attivita.sessionForSendMail(), adressee, attivita, sender, message);
+							} catch (MessagingException e) {
+								e.printStackTrace(Trace.excStream);
+							}
+						}
+					}
 					ConnectionManager.commit();
 					status = Status.OK;
 					result = "Message received";
@@ -221,6 +293,100 @@ public class ChatService {
 				}
 			}
 		} catch (SQLException e) {
+			result = e.getMessage();
+			e.printStackTrace(Trace.excStream);
+		}
+		response.put("status", status);
+		response.put("response", result);
+		return response;
+	}
+
+	public void inviaMailACollaboratore(Session session,
+			Dipendente destinatario,
+			AttivitaSoftre attivita, Dipendente mittente, String messaggio) throws MessagingException {
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress("info@softre.it"));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario.getEmail()));
+		message.setSubject("Attivita Softre ["+attivita.getNomeAttivita()+"]");
+		String mittenteId = mittente.getNome() + " " + mittente.getCognome();
+		String htmlContent = "<!DOCTYPE html>" +
+				"<html>" +
+				"<head>" +
+				"<style>" +
+				"body { font-family: Arial, sans-serif; margin: 0; padding: 0; }" +
+				".container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }" +
+				".header { background-color: #f8f9fa; padding: 20px; text-align: center; }" +
+				".content { padding: 20px; background-color: #ffffff; }" +
+				".footer { background-color: #f8f9fa; padding: 20px; text-align: center; }" +
+				".button { display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px; }" +
+				"</style>" +
+				"</head>" +
+				"<body>" +
+				"<div class='container'>" +
+				"<div class='header'>" +
+				"<h1>"+(attivita.getClientesoftre() != null ? attivita.getClientesoftre().getAnagraficodibase().getRagioneSociale() : "")+"</h1>" +
+				"<h2>"+attivita.getNomeAttivita()+"</h2>" +
+				"</div>" +
+				"<div class='content' style='text-align:center;'>" +
+				"<p><img style='width:24px;height:24px;margin-right:1rem;' src='"+getUrlImmagineCollaboratorePerEsterno(mittente)+"'></img><b>"+mittenteId+" ha aggiunto un nuovo commento all'attivita </b></p><br></br>" +
+				"<p>"+messaggio+" " +
+				"</div>" +
+				"<div class='footer'>" +
+				"</div>" +
+				"</div>" +
+				"</body>" +
+				"</html>";
+		message.setContent(htmlContent, "text/html; charset=utf-8");
+		attivita.sendMessage(message);
+	}
+
+	public String getUrlImmagineCollaboratorePerEsterno(Dipendente dipendente) {
+		String urlImmagine = "";
+		try {
+			String urlPub = null;
+			ApplicationPreferences appPref = (ApplicationPreferences) ApplicationPreferences.elementWithKey(ApplicationPreferences.class, "0", PersistentObject.NO_LOCK);
+			if(appPref != null)
+				urlPub = appPref.getURLPubblico();
+
+			if(urlPub != null && !urlPub.equals("") && !urlPub.startsWith("http://") && !urlPub.startsWith("https://"))
+				urlPub = "http://" + urlPub;
+
+			String webAppPath = "panth03";
+			if(urlPub != null && !urlPub.equals("") && !urlPub.endsWith("/"+webAppPath) && !urlPub.endsWith("/"+webAppPath+"/"))
+				urlPub = urlPub + "/" + "panth03";
+
+			if(urlPub != null && !urlPub.equals("") && urlPub.endsWith("/"))
+				urlPub = urlPub.substring(0, urlPub.length()-1);
+			urlImmagine = urlPub + "/" + dipendente.getURLImmagineDipendente();
+		}catch (SQLException e) {
+			e.printStackTrace(Trace.excStream);
+		}
+		return urlImmagine;
+	}
+
+	public JSONObject cancellaMessaggio(String body) {
+		Status status = Status.INTERNAL_SERVER_ERROR;
+		JSONObject response = new JSONObject();
+		String result = null;
+		try {
+			JSONObject bodyAsJson = new JSONObject(body);
+			if(bodyAsJson.has("ChiaveMessaggio")) {
+				AttivitaChat chat = (AttivitaChat) AttivitaChat.elementWithKey(AttivitaChat.class, bodyAsJson.getString("ChiaveMessaggio"), PersistentObject.NO_LOCK);
+				if(chat != null) {
+					int rcDel = chat.delete();
+					if(rcDel > 0) {
+						status = Status.OK;
+						ConnectionManager.commit();
+						result = "Messaggio cancellato correttamente";
+					}else {
+						ConnectionManager.rollback();	
+					}
+				}
+			}else {
+				status = Status.BAD_REQUEST;
+				result = "Message key not provided";
+			}
+		}catch (Exception e) {
 			result = e.getMessage();
 			e.printStackTrace(Trace.excStream);
 		}

@@ -1,11 +1,13 @@
 package it.softre.thip.base.attivita;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
 import com.thera.thermfw.common.BaseComponentsCollection;
 import com.thera.thermfw.common.BusinessObject;
 import com.thera.thermfw.common.Deletable;
+import com.thera.thermfw.persist.BLOB;
 import com.thera.thermfw.persist.Child;
 import com.thera.thermfw.persist.CopyException;
 import com.thera.thermfw.persist.Copyable;
@@ -21,13 +23,19 @@ import it.thera.thip.base.azienda.Azienda;
 import it.thera.thip.cs.EntitaAzienda;
 
 public abstract class AttivitaChatPO extends EntitaAzienda
-		implements BusinessObject, Authorizable, Deletable, Child, Conflictable {
+implements BusinessObject, Authorizable, Deletable, Child, Conflictable {
 
 	private static AttivitaChat cInstance;
 
 	protected String iMessage;
 
 	protected Integer iMessageId;
+
+	protected String iFileName;
+
+	protected String iFileType;
+
+	protected BLOB iAttachment;
 
 	protected Proxy iParent = new Proxy(it.softre.thip.base.attivita.AttivitaSoftre.class);
 
@@ -46,6 +54,7 @@ public abstract class AttivitaChatPO extends EntitaAzienda
 	public AttivitaChatPO() {
 		setMessageId(new Integer(0));
 		setIdAzienda(Azienda.getAziendaCorrente());
+		iAttachment = new BLOB(this, AttivitaChatTM.ATTACHMENT);
 	}
 
 	public void setMessage(String message) {
@@ -118,10 +127,52 @@ public abstract class AttivitaChatPO extends EntitaAzienda
 		return KeyHelper.stringToIntegerObj(objId);
 	}
 
+	public String getFileName() {
+		return iFileName;
+	}
+
+	public void setFileName(String iFileName) {
+		this.iFileName = iFileName;
+	}
+
+	public String getFileType() {
+		return iFileType;
+	}
+
+	public void setFileType(String iFileType) {
+		this.iFileType = iFileType;
+	}
+
+	public BLOB getAttachment() {
+		return iAttachment;
+	}
+
+	public void setAttachment(BLOB iAttachment) {
+		this.iAttachment = iAttachment;
+	}
+
 	public void setEqual(Copyable obj) throws CopyException {
 		super.setEqual(obj);
 		AttivitaChatPO attivitaChatPO = (AttivitaChatPO) obj;
 		iParent.setEqual(attivitaChatPO.iParent);
+	}
+
+	/**
+	 * Scrive i bytes nella colonna associata dato il BLOB.<br>
+	 * @author Daniele Signoroni 15/07/2024
+	 * <p>
+	 * Prima stesura.<br>
+	 *
+	 * </p>
+	 * @param blob
+	 * @param bytes
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	public int setBytes(BLOB blob, byte[] bytes) throws SQLException, IOException{
+		int rc = blob.setBytes(bytes);
+		return rc;
 	}
 
 	@SuppressWarnings("rawtypes")

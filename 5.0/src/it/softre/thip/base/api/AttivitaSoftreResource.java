@@ -1,5 +1,8 @@
 package it.softre.thip.base.api;
 
+import java.io.InputStream;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.JSONObject;
 
 import com.thera.thermfw.rs.BaseResource;
@@ -32,7 +37,7 @@ import it.softre.thip.base.attivita.AttivitaSoftre;
 public class AttivitaSoftreResource extends BaseResource {
 
 	private ChatService chatService = ChatService.getInstance();
-	
+
 	/**
 	 * Si occupa di ricevere un messaggio e salvare l'opportuno persistent object {@link AttivitaChat}.<br>
 	 * L'utente di creazione e' quello del jwt.<br>
@@ -45,11 +50,32 @@ public class AttivitaSoftreResource extends BaseResource {
 	 */
 	@POST
 	@Path("/chat/ricevi")
-	public Response receiveMessage(String body) {
-		JSONObject bodyJSON = new JSONObject(body);
-		Integer idAttivita = bodyJSON.getInt("IdAttivita");
-		String message = bodyJSON.getString("Message");
-		JSONObject result = chatService.riceviMessaggio(idAttivita,message);
+	@Consumes({ MediaType.MULTIPART_FORM_DATA, MediaType.APPLICATION_JSON })
+	public Response receiveMessage(
+			@FormDataParam("IdAttivita") Integer idAttivita,
+			@FormDataParam("Message") String message,
+			@FormDataParam("file") InputStream fileInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileMetaData) {
+		try {
+			if (fileInputStream != null && fileMetaData != null) {
+				//handle with file
+			}else {
+				//handle with no file
+			}
+			JSONObject result = chatService.riceviMessaggio(idAttivita,message,fileInputStream,fileMetaData);
+			Status stato = (Status) result.get("status");
+			Object entity = result.get("response");
+			return buildResponse(stato,entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error processing request").build();
+		}
+	}
+	
+	@POST
+	@Path("/chat/messaggio/elimina") 
+	public Response deleteMessage(String body){
+		JSONObject result = chatService.cancellaMessaggio(body);
 		Status stato = (Status) result.get("status");
 		Object entity = result.get("response");
 		return buildResponse(stato,entity);

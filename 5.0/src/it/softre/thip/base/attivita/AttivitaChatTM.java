@@ -39,6 +39,12 @@ public class AttivitaChatTM extends TableManager {
 	public static final String MESSAGE = "MESSAGE";
 
 	public static final String MESSAGE_ID = "MESSAGE_ID";
+	
+	public static final String ATTACHMENT = "ATTACHMENT";
+	
+	public static final String ATTACHMENT_NAME = "ATTACHMENT_NAME";
+	
+	public static final String ATTACHMENT_TYPE = "ATTACHMENT_TYPE";
 
 	public static final String TABLE_NAME = SystemParam.getSchema("SOFTRE") + "ATTIVITA_CHAT";
 
@@ -69,8 +75,15 @@ public class AttivitaChatTM extends TableManager {
 		addAttribute("MessageId", MESSAGE_ID, "getIntegerObject");
 		addAttribute("IdAzienda", ID_AZIENDA);
 		addAttribute("Id", ID, "getIntegerObject");
+		addAttribute("FileName", ATTACHMENT_NAME);
+		addAttribute("FileType", ATTACHMENT_TYPE);
 
 		addComponent("DatiComuniEstesi", DatiComuniEstesiTTM.class);
+
+		getColumn(ATTACHMENT).excludeFromSelect();
+	    getColumn(ATTACHMENT).excludeFromInsert();
+	    getColumn(ATTACHMENT).excludeFromUpdate();
+	    
 		setKeys(ID_AZIENDA + "," + ID + "," + MESSAGE_ID);
 
 		setTimestampColumn("TIMESTAMP_AGG");
@@ -78,8 +91,7 @@ public class AttivitaChatTM extends TableManager {
 	}
 
 	private void init() throws SQLException {
-		configure(MESSAGE + ", " + MESSAGE_ID + ", " + ID_AZIENDA + ", " + ID + ", " + STATO + ", " + R_UTENTE_CRZ
-				+ ", " + TIMESTAMP_CRZ + ", " + R_UTENTE_AGG + ", " + TIMESTAMP_AGG);
+		configure();
 	}
 
 }

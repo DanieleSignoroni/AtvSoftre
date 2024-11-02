@@ -1,13 +1,9 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  </link>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="it/softre/thip/base/attivita/css/bootstrap.min.css"></link>
+  <script src="it/softre/thip/base/attivita/js/jquery.js"></script>
+  <script src="it/softre/thip/base/attivita/js/bootstrap.min.js"></script>
   <link href="it/softre/thip/base/attivita/AttivitaSoftre.css" type="text/css" rel="stylesheet">
   </link>
 </head>
@@ -158,18 +154,18 @@
                       </tr>
                       <tr>
                         <td valign="top">
-                          <label for="RichiedenteSoftre"></label>
+                          <label for="RubricaCliente"></label>
                         </td>
                         <td valign="top">
-                          <input id="RichiedenteSoftre" name="RichiedenteSoftre"></input>
+                          <span class="multisearchform" id="RubricaCliente"></span>
                         </td>
                       </tr>
-                      <tr>
+						<tr>
                         <td valign="top">
-                          <label for="RichiedenteCliente"></label>
+                          <label for="RubricaSoftre"></label>
                         </td>
                         <td valign="top">
-                          <input id="RichiedenteCliente" name="RichiedenteCliente"></input>
+                          <span class="multisearchform" id="RubricaSoftre"></span>
                         </td>
                       </tr>
                       <tr>
@@ -198,8 +194,7 @@
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <jsp:include page="/it/softre/thip/base/attivita/Collaboratori.jsp" flush="true">
-                          </jsp:include>
+                          <jsp:include page="/it/softre/thip/base/attivita/Collaboratori.jsp" flush="true"></jsp:include>
                         </td>
                       </tr>
                     </table>

@@ -1,3 +1,4 @@
+<%@page import="com.thera.thermfw.web.WebJSTypeList"%>
 <%@page import="it.thera.thip.base.profilo.UtenteAzienda"%>
 <%@page import="com.thera.thermfw.web.WebForm"%>
 <%@page import="it.softre.thip.base.attivita.AttivitaChat"%>
@@ -8,12 +9,12 @@ WebForm parentForm = (WebForm) request.getAttribute("parentForm");
 AttivitaSoftre attivita = (AttivitaSoftre) parentForm.getBODataCollector().getBo();
 UtenteAzienda utenteAzienda = UtenteAzienda.getUtenteAziendaConnesso();
 String image = null;
-if(utenteAzienda.getDipendente() != null){
-	if(utenteAzienda.getDipendente().getURLImmagineDipendente() != null){
+if (utenteAzienda.getDipendente() != null) {
+	if (utenteAzienda.getDipendente().getURLImmagineDipendente() != null) {
 		image = utenteAzienda.getDipendente().getURLImmagineDipendente();
 	}
 }
-if(image == null)
+if (image == null)
 	image = "https://tacm.com/wp-content/uploads/2018/01/no-image-available.jpeg";
 %>
 <!DOCTYPE html>
@@ -21,104 +22,35 @@ if(image == null)
 <head>
 <meta charset="UTF-8">
 <title>Chat</title>
-<!-- MDBootstrap CSS -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="it/softre/thip/base/font-awesome/css/font-awesome.min.css">
-<style>
-.chat-container {
-	position: relative;
-	height: 70vh;
-	overflow: scroll;
-}
-</style>
+<%
+out.print(WebJSTypeList.getImportForCSS("it/softre/thip/base/attivita/css/bootstrap.min.css", request));
+out.print(WebJSTypeList.getImportForCSS("it/softre/thip/base/font-awesome/css/font-awesome.min.css", request));
+out.print(WebJSTypeList.getImportForCSS("it/softre/thip/base/attivita/css/chat.css", request));
+out.print(WebJSTypeList.getImportForJSLibrary("it/softre/thip/base/attivita/js/bootstrap.min.js", request));
+out.print(WebJSTypeList.getImportForJSLibrary("it/softre/thip/base/attivita/js/jquery.js", request));
+out.print(WebJSTypeList.getImportForJSLibrary("it/softre/thip/base/attivita/js/chat.js", request));
+%>
 </head>
 <body>
 	<div id="chat-container"></div>
-	<div
-		class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-		<img
-			src="<%=image %>"
-			alt="avatar 3" style="width: 40px; height: 100%;"> <textarea
-			class="form-control form-control-lg" id="messageInput"
-			placeholder="Type message"></textarea> <a class="ms-3" onclick="sendMessageDaButton()"><i
-			class="fa fa-paper-plane fa-3x"></i></a>
+	<div id="footer-container">
+	    <div class="user-image-container">
+	        <img class="chat-user-img" src="<%=image%>" alt="avatar">
+	    </div>
+	    <div class="upload-file-message">
+	    	<i id="file-upload-icon" class="fa fa-upload fa-3x" aria-hidden="true"></i>
+	    </div>
+	    <div class="input-container">
+	        <div id="preview-container"></div>
+	        <div id="message-input" class="message-input-contenteditable" contenteditable="true"></div>
+	    </div>
+	    <div class="btn-send-message">
+	    	<i class="fa fa-paper-plane fa-3x" aria-hidden="true"></i>
+	    </div>
+	    <input type="file" id="file-input" style="display: none;">
 	</div>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-        $(document).ready(function() {
-        	fetchChatMessages();
-            $('#messageInput').on('keydown', function(e) {
-            	if ((e.ctrlKey || e.metaKey) && (e.keyCode == 13 || e.keyCode == 10)) {
-                    event.preventDefault(); 
-                    const message = $('#messageInput').val(); 
-                    debugger;
-                    sendMessage(<%=attivita.getId()%>,message);
-                    $('#messageInput').val('');
-                    fetchChatMessages();
-                }
-            });
-            
-            function startFetchInterval() {
-                fetchInterval = setInterval(function() {
-                	 var chatContainer = $('#chatBody');
-                	 var isAtBottom = chatContainer.scrollTop() + chatContainer.innerHeight() >= chatContainer[0].scrollHeight 
-
-                    if (isAtBottom) {
-                    	console.log('Sono alla fine del div quindi fetcho i messaggi....');
-                    	fetchChatMessages();
-                    }
-                }, 2000);
-            }
-            
-            function stopFetchInterval() {
-                clearInterval(fetchInterval);
-            }
-            
-            $('#chatBody').on('scroll', function() {
-                var chatContainer = $(this);
-                var isAtBottom = chatContainer.scrollTop() + chatContainer.innerHeight() >= chatContainer[0].scrollHeight 
-
-                if (!isAtBottom) {
-                    stopFetchInterval();
-                } else {
-                    startFetchInterval();
-                }
-            });
-            
-            startFetchInterval();
-        });
-        
-        function fetchChatMessages() {
-            $.ajax({
-                url: getURLWS() + '/softre/attivita/chat/html',
-                method: 'GET',
-                data: {
-                    "IdAttivita": '<%=attivita.getId()%>',
-                },
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('Authorization', getBearerTokenFromLocalStorage());
-				},
-                success: function(response) {
-                    $('#chat-container').html(response);
-                    var elem = document.getElementById('chatBody');
-                    elem.scrollTop = elem.scrollHeight;
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching chat HTML:', error);
-                }
-            });
-    	}
-        
-        function sendMessageDaButton(){
-        	const message = $('#messageInput').val(); 
-            sendMessage(<%=attivita.getId()%>,message);
-            $('#messageInput').val('');
-            fetchChatMessages();
-        }
-        
-    </script>
+		var idAttivita = <%=attivita.getId()%>;
+	</script>
 </body>
 </html>

@@ -57,11 +57,6 @@ public class AttivitaSoftreResource extends BaseResource {
 			@FormDataParam("file") InputStream fileInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileMetaData) {
 		try {
-			if (fileInputStream != null && fileMetaData != null) {
-				//handle with file
-			}else {
-				//handle with no file
-			}
 			JSONObject result = chatService.riceviMessaggio(idAttivita,message,fileInputStream,fileMetaData);
 			Status stato = (Status) result.get("status");
 			Object entity = result.get("response");

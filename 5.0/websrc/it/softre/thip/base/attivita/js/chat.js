@@ -1,5 +1,6 @@
 var formData = null;
 var fetchInterval;
+var fetching = false;
 
 $(document).ready(function() {
 
@@ -46,40 +47,16 @@ $(document).ready(function() {
 		return false;
 	});
 
-	function startFetchInterval() {
-		fetchInterval = setInterval(function() {
-			if (isAtBottom()) {
-				fetchChatMessages();
-			}
-		}, 3000);
-	}
-
-	function stopFetchInterval() {
-		clearInterval(fetchInterval);
-	}
-
-	function isAtBottom() {
-		const scrollTop = $('#chat-container').scrollTop(); // Check scroll position of #chat-container
-		const innerHeight = $('#chat-container').innerHeight(); // Get inner height of #chat-container
-		const scrollHeight = $('#chatBody')[0].scrollHeight; // Still refer to the inner content for scroll height
-		let lengthFigli = $('#chat-container').children().length;
-
-		const isAtBottom = scrollTop + innerHeight >= scrollHeight;
-		if (lengthFigli == 0)
-			isAtBottom = false;
-		return isAtBottom;
-	}
-
 	$('#chat-container').on('scroll', function() {
 		if (!isAtBottom()) {
-			stopFetchInterval(); // Stop fetching if not at bottom
+			stopFetchInterval();
 		} else {
-			startFetchInterval(); // Restart fetching if back at bottom
+			startFetchInterval();
 		}
 	});
 
 	$('#file-upload-icon').on('click', function() {
-		$('#file-input').click(); // Opens the file picker dialog
+		$('#file-input').click();
 	});
 
 	$('#send-message-icon').on('click', function() {
@@ -93,53 +70,75 @@ $(document).ready(function() {
 	$('#file-input').on('change', function(event) {
 		const file = event.target.files[0];
 		if (file) {
-			// Check if the file is an image
 			if (file.type.startsWith('image/')) {
 				const reader = new FileReader();
 				reader.onload = function(event) {
-					displayImagePreview(event); // Display image preview
+					displayImagePreview(event);
 				};
-				reader.readAsDataURL(file); // Read the image file as a data URL
+				reader.readAsDataURL(file);
 			} else {
 				displayFileStatus(file.name);
 			}
 			formData.append('file', file);
 		}
-		$('#file-input').val(''); // Reset file input for future selections
+		$('#file-input').val('');
 	});
 
-
 	startFetchInterval();
-	//	document.getElementById('file-input').addEventListener('change', handleFileSelect);
 	document.getElementById('message-input').addEventListener('paste', handlePaste);
 });
 
+function startFetchInterval() {
+	fetchInterval = setInterval(function() {
+		if (isAtBottom() && !fetching) {
+			fetchChatMessages();
+			fetching = true;
+			console.log('Sono alla fine quindi fetch mex');
+		}
+	}, 3000);
+}
+
+function stopFetchInterval() {
+	clearInterval(fetchInterval);
+	fetching = false;
+}
+
+function isAtBottom() {
+	const scrollTop = $('#chat-container').scrollTop();
+	const innerHeight = $('#chat-container').innerHeight();
+	//const scrollHeight = $('#chatBody')[0].scrollHeight;
+	const scrollHeight = $('#chat-container')[0].scrollHeight;
+	let lengthFigli = $('#chatBody').children().length;
+
+	let isAtBottom = scrollTop + innerHeight >= scrollHeight;
+	if (lengthFigli == 0)
+		isAtBottom = false;
+	return isAtBottom;
+}
+
 function displayImagePreview(event) {
-	// Create a container for the image
 	const imageContainer = document.createElement('div');
-	imageContainer.style.position = 'relative'; // Position for the cross button
+	imageContainer.style.position = 'relative';
 
 	const img = document.createElement('img');
 	img.src = event.target.result;
-	img.style.maxWidth = '100%'; // Ensure the image fits the container
+	img.style.maxWidth = '100%';
 
 	const cross = document.createElement('span');
-	cross.className = 'cross-button'; // Assign a class for styling
+	cross.className = 'cross-button';
 
-	// Add event listener to remove the image on click
 	cross.addEventListener('click', function() {
 		imageContainer.remove();
 	});
 
-	// Append the image and cross to the container
 	imageContainer.appendChild(img);
-	imageContainer.appendChild(cross); // Append the cross to the container
+	imageContainer.appendChild(cross);
 	document.getElementById('message-input').appendChild(imageContainer);
 }
 
 function displayFileStatus(fileName) {
 	const fileStatusContainer = document.getElementById('file-status-container');
-	fileStatusContainer.innerHTML = ''; // Clear previous status if any
+	fileStatusContainer.innerHTML = '';
 
 	const fileStatus = document.createElement('div');
 	fileStatus.className = 'file-status';
@@ -152,10 +151,9 @@ function displayFileStatus(fileName) {
 	removeButton.textContent = 'X';
 	removeButton.className = 'remove-button';
 
-	// Add event listener to remove the file from formData and UI
 	removeButton.addEventListener('click', function() {
-		fileStatusContainer.innerHTML = ''; // Clear file status
-		formData.delete('file'); // Remove file from formData
+		fileStatusContainer.innerHTML = '';
+		formData.delete('file');
 	});
 
 	fileStatus.appendChild(fileNameSpan);
@@ -181,6 +179,7 @@ function handlePaste(event) {
 }
 
 function sendMessage(idAttivita) {
+	stopFetchInterval();
 	let file = null;
 	if (formData.has('file')) {
 		file = formData.get('file');
@@ -190,27 +189,27 @@ function sendMessage(idAttivita) {
 	data.append('IdAttivita', idAttivita);
 	data.append('Message', $('#message-input').text());
 	if (file) {
-		data.append('file', file); // Add the image if it exists
+		data.append('file', file);
 	}
 
 	fetch(getURLWS() + '/softre/attivita/chat/ricevi', {
 		method: 'POST',
 		body: data,
 		headers: {
-			'Authorization': getBearerTokenFromLocalStorage() // Include auth token
+			'Authorization': getBearerTokenFromLocalStorage()
 		}
 	}).then(response => {
 		if (!response.ok) {
 			throw new Error('Network response was not ok ' + response.statusText);
 		} else {
 			$('#message-input').html('');
-			formData.forEach(function(key) {
-				formData.delete(key);
-			});
+			formData.delete('file');
 			if (document.getElementById('file-status') != undefined && document.getElementById('file-status') != null) {
 				document.getElementById('file-status').innerHTML = '';
 			}
 			document.getElementById('file-status-container').innerHTML = '';
+
+			fetchChatMessages();
 
 		}
 		return response;
@@ -220,19 +219,21 @@ function sendMessage(idAttivita) {
 }
 
 function downloadAttachment(element) {
-	var input = element.parentNode.querySelectorAll('.attachment-content')[0];
-	var base64Content = input.value;
-	const decodedContent = atob(base64Content);
+	var input = element.parentNode.parentNode.querySelectorAll('.attachment-content')[0];
+	if (input != undefined) {
+		var base64Content = input.value;
+		const decodedContent = atob(base64Content);
 
-	const blob = new Blob([decodedContent], { type: 'text/plain' });
+		const blob = new Blob([decodedContent], { type: 'text/plain' });
 
-	const downloadLink = document.createElement('a');
-	downloadLink.href = URL.createObjectURL(blob);
-	downloadLink.download = input.dataset.filename;
+		const downloadLink = document.createElement('a');
+		downloadLink.href = URL.createObjectURL(blob);
+		downloadLink.download = input.dataset.filename;
 
-	downloadLink.click();
+		downloadLink.click();
 
-	URL.revokeObjectURL(downloadLink.href);
+		URL.revokeObjectURL(downloadLink.href);
+	}
 }
 
 function deleteMessage(idMessage) {
@@ -242,8 +243,8 @@ function deleteMessage(idMessage) {
 			"ChiaveMessaggio": idMessage
 		}),
 		headers: {
-			'Authorization': getBearerTokenFromLocalStorage(), // Include auth token
-			'Content-Type': 'application/json' // Specify the content type as JSON
+			'Authorization': getBearerTokenFromLocalStorage(),
+			'Content-Type': 'application/json'
 		}
 	}).then(response => {
 		if (!response.ok) {
@@ -268,10 +269,11 @@ function fetchChatMessages() {
 		},
 		success: function(response) {
 			$('#chat-container').html(response);
-			var elem = document.getElementById('chatBody');
-			elem.scrollTop = elem.scrollHeight;
+			let chatContainer = document.getElementById("chat-container");
+			//chatContainer.scrollTop = chatContainer.scrollHeight;
+			fetching = false;
 		},
-		error: function(xhr, status, error) {
+		error: function(error) {
 			console.error('Error fetching chat HTML:', error);
 		}
 	});
